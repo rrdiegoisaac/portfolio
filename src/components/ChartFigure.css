@@ -1,0 +1,53 @@
+.chart-figure {
+  margin: 2.5rem 0;
+}
+
+/* Gráficos anchos: salen del ancho del texto en pantallas grandes */
+@media (min-width: 900px) {
+  .chart-figure--wide {
+    margin-left: -8rem;
+    margin-right: -8rem;
+  }
+}
+
+.chart-figure__header {
+  margin-bottom: 1rem;
+}
+
+.chart-figure__title {
+  margin: 0 0 0.25rem;
+  font-size: 1.05rem;
+  text-wrap: balance;
+}
+
+.chart-figure__subtitle {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.chart-figure__body {
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-figure__note {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* Etiquetas sobre los datos (ciudades, "Costa"): halo del color de fondo para que se lean sobre los puntos */
+.chart-figure .recharts-reference-dot .recharts-label,
+.chart-figure .recharts-reference-line .recharts-label {
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+/* Recharts dibuja un recuadro de foco al hacer clic; se deja solo para teclado */
+.chart-figure .recharts-surface:focus,
+.chart-figure .recharts-wrapper:focus {
+  outline: none;
+}

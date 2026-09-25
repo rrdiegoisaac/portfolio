@@ -1,0 +1,32 @@
+.data-table {
+  overflow-x: auto;
+  margin-top: 1.5rem;
+}
+
+.data-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table th,
+.data-table td {
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--chart-grid);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.data-table th {
+  white-space: normal;
+  vertical-align: bottom;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  border-bottom-color: var(--border);
+}
+
+.data-table .data-table__num {
+  text-align: right;
+}
