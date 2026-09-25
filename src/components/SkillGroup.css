@@ -1,0 +1,27 @@
+.skill-group {
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.skill-group__title {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+}
+
+/* La lista se muestra como etiquetas en fila, no con viñetas */
+.skill-group__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.skill-group__item {
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background-color: var(--surface);
+  font-size: 0.9rem;
+}

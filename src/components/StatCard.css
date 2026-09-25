@@ -1,0 +1,21 @@
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1.25rem 1.5rem;
+  border-left: 3px solid var(--accent);
+  background-color: var(--surface);
+  border-radius: 0 6px 6px 0;
+}
+
+.stat-card__value {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.stat-card__label {
+  font-size: 0.95rem;
+  color: var(--muted);
+}
