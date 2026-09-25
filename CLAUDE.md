@@ -19,7 +19,7 @@ El repo es **privado**. Los repos de cada proyecto (el análisis en Python) son 
 Estado de los proyectos:
 | Proyecto | Nota | Repo del análisis |
 |---|---|---|
-| Terremotos en Chile (`terremotos-chile`) | Completa | github.com/rrdiegoisaac/terremotos-chile (público) |
+| Terremotos en Chile (`terremotos-chile`) | Completa | github.com/rrdiegoisaac/terremotos-chile (público) · dataset en Kaggle: kaggle.com/datasets/diegoisaac1/chile-earthquakes-20002026-csn-catalog |
 | Portal Inmobiliario | Pendiente | `analisis-datos-inmobiliarios` (privado por ahora) |
 | Delitos en Chile | Pendiente | `analisis-delictual-chile` (privado por ahora) |
 | Segmentación de clientes | Pendiente | `customer-analysis` (privado por ahora) |
@@ -54,7 +54,6 @@ Estado de los proyectos:
 
 ## Pendientes
 
-- Subir la base de terremotos a Kaggle y poner su URL en `dataset` en `src/data/projects.js` (el botón aparece solo).
 - Agregar LinkedIn y correo en `src/components/Contact.jsx` (hoy solo aparece GitHub).
 - Hacer las notas de los otros 3 proyectos.
 - Cuando se quiera publicar el sitio: Vercel (funciona con repos privados) y un `vercel.json` para que funcionen las rutas de React Router.

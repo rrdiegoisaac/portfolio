@@ -653,8 +653,12 @@ function TerremotosNota() {
       <p>
         Todo el proceso es reproducible: el scraper, la base SQLite y cada paso
         del análisis están en el repositorio del proyecto en GitHub, con pruebas
-        de las funciones principales y consultas SQL de ejemplo. La base de datos
-        completa también estará disponible en Kaggle.
+        de las funciones principales y consultas SQL de ejemplo. El catálogo
+        completo, sin filtros, está publicado como dataset en{' '}
+        <a href="https://www.kaggle.com/datasets/diegoisaac1/chile-earthquakes-20002026-csn-catalog" target="_blank" rel="noreferrer">
+          Kaggle
+        </a>
+        , para que cualquiera pueda hacer su propio análisis.
       </p>
 
       <h2>Notas metodológicas</h2>

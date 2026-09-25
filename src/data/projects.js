@@ -12,7 +12,7 @@ const projects = [
       'El catálogo completo del Centro Sismológico Nacional desde 2000, obtenido con web scraping: dónde y a qué profundidad tiembla, cómo creció la red que mide y qué dejaron los terremotos de 2010, 2014 y 2015.',
     stack: ['Python', 'requests', 'BeautifulSoup', 'SQLite', 'pandas'],
     repo: `https://github.com/${GITHUB_USER}/terremotos-chile`,
-    dataset: null, // pendiente: URL del dataset en Kaggle
+    dataset: 'https://www.kaggle.com/datasets/diegoisaac1/chile-earthquakes-20002026-csn-catalog',
     color: '#b45309',
   },
   {
