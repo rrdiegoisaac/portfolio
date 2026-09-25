@@ -1,0 +1,91 @@
+.project-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  color: var(--text);
+  text-decoration: none;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--card-color);
+}
+
+.project-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Portada: imagen si el proyecto la tiene; si no, bloque de color con el título */
+.project-card__cover {
+  aspect-ratio: 16 / 7;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.25rem;
+  background-color: var(--card-color);
+}
+
+.project-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-card:has(.project-card__image) .project-card__cover {
+  padding: 0;
+}
+
+.project-card__cover-title {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #ffffff;
+}
+
+.project-card__body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 0.75rem;
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.project-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.project-card__tags li + li::before {
+  content: '·';
+  margin-right: 0.4rem;
+}
+
+.project-card__title {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.project-card__summary {
+  margin: 0;
+  flex-grow: 1;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.project-card__cta {
+  font-weight: 600;
+  color: var(--accent);
+}

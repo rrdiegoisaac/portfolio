@@ -1,0 +1,34 @@
+.projects {
+  padding: 5rem 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.projects__content {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.projects__title {
+  margin: 0 0 0.75rem;
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+}
+
+.projects__intro {
+  margin: 0 0 2rem;
+  max-width: 60ch;
+  font-size: 1.05rem;
+  color: var(--muted);
+}
+
+.projects__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 720px) {
+  .projects__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
