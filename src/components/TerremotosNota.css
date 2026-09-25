@@ -1,0 +1,150 @@
+/* Estilo de texto de nota: la prosa se mantiene a ~65 caracteres de ancho */
+.nota {
+  margin-top: 2.5rem;
+  font-size: 1.08rem;
+  line-height: 1.75;
+}
+
+.nota p {
+  margin: 0 0 1.25rem;
+}
+
+.nota h2 {
+  margin: 3.5rem 0 1rem;
+  font-family: var(--serif);
+  font-size: 1.7rem;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+.nota__lead {
+  font-size: 1.2rem;
+}
+
+.nota__stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+@media (max-width: 520px) {
+  .nota__stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.nota__mapa {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .nota__mapa {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.nota__aviso {
+  margin: 2rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  background-color: var(--surface);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.nota__metodo {
+  margin: 0;
+  padding-left: 1.25rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.nota__metodo li + li {
+  margin-top: 0.5rem;
+}
+
+.nota__cita {
+  font-size: 0.7em;
+  line-height: 0;
+}
+
+.nota__cita a {
+  margin-left: 0.1em;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.nota__fuentes {
+  margin: 0;
+  padding-left: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.nota__fuentes li + li {
+  margin-top: 0.5rem;
+}
+
+.nota__fuentes li:target {
+  color: var(--text);
+}
+
+.nota__fuentes a {
+  color: var(--accent);
+  overflow-wrap: anywhere;
+}
+
+.nota h3 {
+  margin: 2.5rem 0 0.75rem;
+  font-size: 1.2rem;
+}
+
+/* Mapa junto a una tabla: la tabla necesita más ancho que el mapa */
+.nota__mapa--tabla {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  align-items: start;
+}
+
+.nota__mapa--tabla .data-table th {
+  white-space: normal;
+}
+
+@media (max-width: 640px) {
+  .nota__mapa--tabla {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Recuadro de resumen al inicio de la nota */
+.nota__resumen {
+  margin: 2rem 0;
+  padding: 1.5rem 1.75rem;
+  border-radius: 8px;
+  background-color: var(--surface);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.nota__resumen .nota__resumen-titulo {
+  margin: 0 0 0.75rem;
+  font-family: var(--serif);
+  font-size: 1.3rem;
+}
+
+.nota__resumen h3.nota__resumen-titulo {
+  margin-top: 1.5rem;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.nota__resumen ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.nota__resumen li + li {
+  margin-top: 0.5rem;
+}

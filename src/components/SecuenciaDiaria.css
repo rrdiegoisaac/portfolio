@@ -1,0 +1,38 @@
+.secuencias {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 860px) {
+  .secuencias {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Nombre y detalle en líneas separadas, igual en todos, para que los ejes queden alineados */
+.secuencia__title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin: 0 0 0.25rem;
+}
+
+.secuencia__nombre {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.secuencia__lugar {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.secuencia__aviso {
+  margin: 0.5rem 0 0;
+  padding-left: 0.6rem;
+  border-left: 2px solid var(--chart-2);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--muted);
+}

@@ -1,0 +1,26 @@
+.cortes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 860px) {
+  .cortes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Nombre y conteo en líneas separadas, igual en los tres cortes, para que los ejes queden alineados */
+.corte__title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.corte__count {
+  font-weight: 400;
+  color: var(--muted);
+}

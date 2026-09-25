@@ -1,0 +1,23 @@
+.sismos-fuertes {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 760px) {
+  .sismos-fuertes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.sismos-fuertes__caption {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* La tabla de esta figura permite cortar el lugar en dos líneas */
+.sismos-fuertes .data-table td:last-child {
+  white-space: normal;
+}
