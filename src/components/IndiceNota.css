@@ -1,0 +1,183 @@
+/* Deja un margen al saltar a una sección, para que el título no quede pegado al borde */
+.nota > h2,
+.nota > h3,
+.nota__resumen > h2 {
+  scroll-margin-top: 1.5rem;
+}
+
+.indice__titulo {
+  margin: 0 0 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.indice__lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.indice__item--h3 {
+  padding-left: 0.9rem;
+}
+
+.indice__enlace {
+  display: block;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  line-height: 1.35;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.indice__item--h2 .indice__enlace {
+  font-weight: 600;
+}
+
+.indice__enlace:hover {
+  background-color: var(--surface);
+  color: var(--text);
+}
+
+.indice__enlace:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.indice__enlace--activo {
+  color: var(--accent);
+}
+
+/* --- Pantallas anchas: marcas en el borde derecho que se despliegan -------------- */
+
+.indice--flotante {
+  position: fixed;
+  top: 50%;
+  right: 0.75rem;
+  z-index: 20;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.indice__marcas {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.55rem;
+  padding: 0.75rem 0.25rem 0.75rem 1rem;
+  transition: opacity 0.15s ease;
+}
+
+.indice__marca {
+  display: block;
+  height: 2px;
+  border-radius: 1px;
+  background-color: var(--chart-muted);
+}
+
+.indice__marca--h2 {
+  width: 16px;
+}
+
+.indice__marca--h3 {
+  width: 9px;
+}
+
+.indice__marca--activa {
+  background-color: var(--accent);
+}
+
+.indice__panel {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 280px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 1rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background-color: var(--bg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(8px, -50%);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+}
+
+/* Se despliega al pasar el cursor o al navegar con el teclado (solo foco de teclado, no de clic) */
+.indice--flotante:hover .indice__panel,
+.indice--flotante:has(:focus-visible) .indice__panel {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0, -50%);
+}
+
+.indice--flotante:hover .indice__marcas,
+.indice--flotante:has(:focus-visible) .indice__marcas {
+  opacity: 0;
+}
+
+/* --- Pantallas angostas: botón fijo que abre la lista ----------------------------- */
+
+.indice--movil {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .indice--flotante {
+    display: none;
+  }
+
+  .indice--movil {
+    display: block;
+    position: fixed;
+    right: 1rem;
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    z-index: 20;
+  }
+
+  .indice__boton {
+    padding: 0.6rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background-color: var(--bg);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .indice__boton:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .indice__hoja {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 0.5rem);
+    width: min(320px, calc(100vw - 2rem));
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 1rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background-color: var(--bg);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indice__panel,
+  .indice__marcas {
+    transition: none;
+  }
+}
