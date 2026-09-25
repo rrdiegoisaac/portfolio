@@ -1,0 +1,72 @@
+/* Estilos globales: aplican a toda la página.
+   Los estilos de cada sección viven en el .css de su componente. */
+
+/* Paleta compartida: los componentes usan estos colores con var(--nombre) */
+:root {
+  --bg: #ffffff;
+  --surface: #f5f6f8;
+  --text: #1a1a1a;
+  --muted: #5c5c5c;
+  --accent: #1f6feb;
+  --accent-text: #ffffff;
+  --border: #d0d0d0;
+
+  /* Gráficos */
+  --chart-1: #2a78d6;
+  --chart-2: #eb6834;
+  --chart-3: #1baf7a;
+  /* Escala ordinal de un solo tono (tramos ordenados, ej. de magnitud) */
+  --seq-1: #86b6ef;
+  --seq-2: #3987e5;
+  --seq-3: #1c5cab;
+  --seq-4: #0d366b;
+  --chart-grid: #e1e0d9;
+  --chart-axis: #898781;
+  --chart-muted: #c3c2b7;
+  --code-bg: #1e1e1e;
+
+  --serif: Georgia, 'Times New Roman', serif;
+
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+  color-scheme: light dark;
+  color: var(--text);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121212;
+    --surface: #1e1f23;
+    --text: #f0f0f0;
+    --muted: #a8a8a8;
+    --accent: #4c8dff;
+    --border: #444444;
+
+    --chart-1: #3987e5;
+    --chart-2: #d95926;
+    --chart-3: #199e70;
+    --seq-1: #184f95;
+    --seq-2: #2a78d6;
+    --seq-3: #6da7ec;
+    --seq-4: #b7d3f6;
+    --chart-grid: #2c2c2a;
+    --chart-axis: #898781;
+    --chart-muted: #4a4a47;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
