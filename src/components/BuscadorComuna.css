@@ -5,9 +5,13 @@
   font-weight: 600;
 }
 
-.buscador-comuna__select {
-  width: 100%;
+.buscador-comuna__campo {
+  position: relative;
   max-width: 24rem;
+}
+
+.buscador-comuna__input {
+  width: 100%;
   padding: 0.5rem 0.75rem;
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -17,12 +21,59 @@
   font-size: 0.95rem;
 }
 
-.buscador-comuna__select:focus-visible {
+.buscador-comuna__input:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
+.buscador-comuna__lista {
+  position: absolute;
+  z-index: 5;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0.25rem 0;
+  list-style: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background-color: var(--bg);
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.15);
+}
+
+.buscador-comuna__opcion {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.buscador-comuna__opcion span {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.buscador-comuna__opcion[aria-selected='true'] {
+  background-color: var(--surface);
+}
+
 /* Doble clase: le gana al margen de los párrafos de .nota */
+.buscador-comuna .buscador-comuna__vacio {
+  margin: 0.4rem 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.buscador-comuna .buscador-comuna__elegida {
+  margin: 1rem 0 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.buscador-comuna__elegida span {
+  font-weight: 400;
+  color: var(--muted);
+}
+
 .buscador-comuna .buscador-comuna__meta {
   margin: 0.75rem 0 0;
   font-size: 0.85rem;
