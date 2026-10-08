@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import FondoAnalitico from './FondoAnalitico'
 import Hero from './Hero'
 import About from './About'
 import Skills from './Skills'
@@ -7,8 +8,8 @@ import Contact from './Contact'
 import './Home.css'
 
 // Página de inicio en dos columnas: a la izquierda, la presentación fija (Hero);
-// a la derecha, las secciones. De fondo, manchas de color difuminadas que se mueven
-// lento y un halo de luz que sigue al cursor.
+// a la derecha, las secciones. De fondo, manchas de color difuminadas, un gráfico
+// tenue que se desplaza lento y un halo de luz que sigue al cursor.
 function Home() {
   const halo = useRef(null)
 
@@ -25,6 +26,7 @@ function Home() {
   return (
     <div className="home">
       <div className="home__fondo" aria-hidden="true" />
+      <FondoAnalitico />
       <div className="home__halo" ref={halo} aria-hidden="true" />
       <div className="home__layout">
         <Hero />

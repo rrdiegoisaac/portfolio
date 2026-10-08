@@ -8,9 +8,9 @@ const SECCIONES = [
   { id: 'contacto', texto: 'Contacto' },
 ]
 
-// Foto de perfil: pon el archivo en public/ (ej. public/foto.jpg) y cambia null por '/foto.jpg'.
-// Mientras sea null se muestran las iniciales.
-const FOTO = null
+// Foto de perfil: por ahora, el avatar de GitHub. Para usar otra, pon el archivo en public/
+// (ej. public/foto.jpg) y cambia la URL por '/foto.jpg'. Con null se muestran las iniciales.
+const FOTO = 'https://github.com/rrdiegoisaac.png'
 
 const REDES = [{ texto: 'GitHub', href: 'https://github.com/rrdiegoisaac' }]
 

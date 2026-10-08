@@ -1,13 +1,13 @@
 /* La página de inicio usa siempre un tema azul marino oscuro: redefine los colores de
    index.css solo dentro de .home, así las notas de proyecto mantienen su tema. */
 .home {
-  --bg: #0b1426;
-  --surface: #13203a;
-  --text: #e2e8f0;
-  --muted: #94a3b8;
+  --bg: #13233f;
+  --surface: #1b2e50;
+  --text: #e8eef6;
+  --muted: #a7b6cc;
   --accent: #5eead4;
-  --accent-text: #0b1426;
-  --border: #22314f;
+  --accent-text: #13233f;
+  --border: #2b4068;
 
   position: relative;
   isolation: isolate;

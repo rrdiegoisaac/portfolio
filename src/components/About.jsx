@@ -10,7 +10,7 @@ const destacados = [
   {
     cifra: 'Kaggle',
     titulo: 'Competencias y datasets abiertos',
-    texto: 'Participo en competencias de modelos predictivos y publico datasets para la comunidad, como el catálogo de sismos de Chile 2000–2026.',
+    texto: 'Participo en competencias de modelos predictivos y publico datasets para que la comunidad pueda usarlos.',
     enlace: { texto: 'Ver perfil', href: 'https://www.kaggle.com/diegoisaac1' },
   },
   {
