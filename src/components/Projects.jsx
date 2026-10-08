@@ -4,20 +4,23 @@ import './Projects.css'
 
 function Projects() {
   return (
-    <section className="projects" id="proyectos">
-      <div className="projects__content">
-        <h2 className="projects__title">Proyectos</h2>
-        <p className="projects__intro">
-          Cada proyecto tiene su propia nota: el problema, los datos, el
-          código relevante y lo que encontré.
-        </p>
+    <section className="projects home__seccion" id="proyectos" aria-label="Proyectos">
+      <h2 className="home__seccion-titulo">Proyectos</h2>
+      <p className="projects__intro">
+        Cada proyecto tiene su propia nota: el problema, los datos, el código
+        relevante y lo que encontré.
+      </p>
 
-        <div className="projects__grid">
-          {projects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
+      <ul className="projects__lista">
+        {/* Primero los proyectos con nota publicada */}
+        {[...projects]
+          .sort((a, b) => Number(Boolean(b.nota)) - Number(Boolean(a.nota)))
+          .map((project) => (
+            <li key={project.slug}>
+              <ProjectCard project={project} />
+            </li>
           ))}
-        </div>
-      </div>
+      </ul>
     </section>
   )
 }

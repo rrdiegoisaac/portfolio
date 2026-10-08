@@ -1,0 +1,94 @@
+.home {
+  position: relative;
+}
+
+/* Halo de luz que sigue al cursor (solo con mouse; en pantallas táctiles no se ve) */
+.home__halo {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    600px circle at var(--x, -1000px) var(--y, -1000px),
+    color-mix(in srgb, var(--accent) 9%, transparent),
+    transparent 80%
+  );
+}
+
+@media (hover: none) {
+  .home__halo {
+    display: none;
+  }
+}
+
+.home__layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .home__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: 4rem;
+    padding: 0 3rem;
+  }
+
+  .home__contenido {
+    padding: 6rem 0;
+  }
+}
+
+/* --- Elementos comunes de las secciones de la columna derecha ---------------------- */
+
+.home__seccion {
+  margin-bottom: 6rem;
+  scroll-margin-top: 4rem;
+}
+
+/* Título de sección: pequeño, en mayúsculas. En celular queda pegado arriba al bajar. */
+.home__seccion-titulo {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  margin: 0 -1.5rem 1.5rem;
+  padding: 1rem 1.5rem;
+  background-color: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: blur(8px);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+@media (min-width: 1024px) {
+  .home__seccion-titulo {
+    position: static;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    background: none;
+    backdrop-filter: none;
+    color: var(--muted);
+  }
+}
+
+/* Etiquetas en forma de píldora (habilidades y proyectos) */
+.home__etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home__etiquetas li {
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background-color: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.5;
+}

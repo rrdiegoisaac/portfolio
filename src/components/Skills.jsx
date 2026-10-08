@@ -36,16 +36,15 @@ const skillGroups = [
 
 function Skills() {
   return (
-    <section className="skills" id="habilidades">
-      <div className="skills__content">
-        <h2 className="skills__title">Habilidades</h2>
-
-        <div className="skills__grid">
-          {skillGroups.map((group) => (
-            <SkillGroup key={group.title} title={group.title} skills={group.skills} />
-          ))}
-        </div>
-      </div>
+    <section className="skills home__seccion" id="habilidades" aria-label="Habilidades">
+      <h2 className="home__seccion-titulo">Habilidades</h2>
+      <ol className="skills__lista">
+        {skillGroups.map((group) => (
+          <li key={group.title}>
+            <SkillGroup title={group.title} skills={group.skills} />
+          </li>
+        ))}
+      </ol>
     </section>
   )
 }

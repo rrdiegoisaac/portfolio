@@ -1,11 +1,13 @@
 // Datos de los proyectos: alimentan las tarjetas de la Home y cada página /proyectos/:slug.
 // Para agregar una imagen de portada, pon el archivo en public/ y agrega image: '/nombre.png'.
+// nota: true cuando la nota del proyecto ya está publicada (registrada en ProjectPage.jsx).
 
 const GITHUB_USER = 'rrdiegoisaac'
 
 const projects = [
   {
     slug: 'terremotos-chile',
+    nota: true,
     title: 'Dónde, cuánto y a qué profundidad tiembla en Chile',
     tags: ['Web scraping', 'SQLite', 'Geoanálisis'],
     summary:
@@ -27,6 +29,7 @@ const projects = [
   },
   {
     slug: 'delitos-chile',
+    nota: true,
     title: 'Qué dicen (y qué no) los registros policiales de Chile',
     tags: ['Web scraping', 'SQLite', 'Series de tiempo'],
     summary:

@@ -1,27 +1,24 @@
+/* Cada grupo es una fila: el nombre a la izquierda y las herramientas a la derecha */
 .skill-group {
-  padding: 1.5rem;
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+@media (max-width: 560px) {
+  .skill-group {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.6rem;
+  }
 }
 
 .skill-group__title {
-  margin: 0 0 1rem;
-  font-size: 1.1rem;
-}
-
-/* La lista se muestra como etiquetas en fila, no con viñetas */
-.skill-group__list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.skill-group__item {
-  padding: 0.3rem 0.75rem;
-  border-radius: 999px;
-  background-color: var(--surface);
-  font-size: 0.9rem;
+  margin: 0.2rem 0 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--muted);
 }
