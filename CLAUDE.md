@@ -21,7 +21,7 @@ Estado de los proyectos:
 |---|---|---|
 | Terremotos en Chile (`terremotos-chile`) | Completa | github.com/rrdiegoisaac/terremotos-chile (público) · dataset en Kaggle: kaggle.com/datasets/diegoisaac1/chile-earthquakes-20002026-csn-catalog |
 | Portal Inmobiliario | Pendiente | `analisis-datos-inmobiliarios` (privado por ahora) |
-| Delitos en Chile | Pendiente | `analisis-delictual-chile` (privado por ahora) |
+| Delitos en Chile (`delitos-chile`) | Completa (falta publicar el repo) | `delincuencia-chile`, carpeta hermana de `portfolio`, aún sin remoto · versión 2024: github.com/rrdiegoisaac/delincuencia (pública) |
 | Segmentación de clientes | Pendiente | `customer-analysis` (privado por ahora) |
 
 ## Convenciones de código
@@ -51,9 +51,11 @@ Estado de los proyectos:
 
 - El proyecto está en una carpeta de **OneDrive**. `vite.config.js` usa `resolve.preserveSymlinks: true` porque OneDrive convierte `node_modules` en "reparse points" y sin esa opción Vite falla con "failed to resolve import". Si en otro PC está fuera de OneDrive, la opción no molesta.
 - Para actualizar los datos de terremotos: en el repo `terremotos-chile`, correr `python analisis/exportar.py` y copiar `export/*.json` a `src/data/terremotos/`.
+- Para actualizar los datos de delitos: en el repo `delincuencia-chile`, correr `python scraper/scrape_cead.py --rehacer` (~1 hora), `python analisis/exportar.py` y copiar `export/*.json` a `src/data/delitos/`. Los textos de la nota que no se leen del JSON están marcados en el comentario inicial de `DelitosNota.jsx`.
+- Los estilos comunes de las notas (`.nota`, `.nota__resumen`, etc.) están en `src/components/Nota.css`.
 
 ## Pendientes
 
 - Agregar LinkedIn y correo en `src/components/Contact.jsx` (hoy solo aparece GitHub).
-- Hacer las notas de los otros 3 proyectos.
+- Hacer las notas de los otros 2 proyectos (Portal Inmobiliario y segmentación de clientes).
 - Cuando se quiera publicar el sitio: Vercel (funciona con repos privados) y un `vercel.json` para que funcionen las rutas de React Router.
