@@ -1,0 +1,35 @@
+.tendencia-familias {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem 1.25rem;
+}
+
+@media (max-width: 860px) {
+  .tendencia-familias {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .tendencia-familias {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Doble clase: le gana al margen de los párrafos de .nota */
+.tendencia-familias .tendencia-familias__title {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.tendencia-familias .tendencia-familias__dato {
+  margin: 0 0 0.25rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* El panel del total ocupa toda la fila de arriba */
+.tendencia-familias__panel--destacado {
+  grid-column: 1 / -1;
+}
