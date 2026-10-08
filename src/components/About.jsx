@@ -1,9 +1,26 @@
+import projects from '../data/projects'
 import './About.css'
 
-const stats = [
-  { value: '2 años', label: 'como Data Analyst en telecomunicaciones' },
-  { value: '3 fuentes', label: 'SQL Server, SAP y Oracle integradas en un mismo entorno analítico' },
-  { value: '4 proyectos', label: 'propios, desde la obtención de los datos hasta las conclusiones' },
+const notasPublicadas = projects.filter((p) => p.nota).length
+
+// Cifras de los proyectos: 157.384 sismos (catálogo del CSN, terremotos-chile) y
+// 36,9 millones de casos policiales (CEAD, delincuencia-chile). Actualizarlas si cambian los datos.
+const destacados = [
+  {
+    cifra: '2 años',
+    titulo: 'como Data Analyst en telecomunicaciones',
+    texto: 'Automatización con SQL Server y Python, datos de SAP y Oracle, y dashboards en Power BI.',
+  },
+  {
+    cifra: '37 millones',
+    titulo: 'de sismos y casos policiales en mis análisis',
+    texto: '157.384 sismos del CSN y 36,9 millones de casos del CEAD, obtenidos con web scraping.',
+  },
+  {
+    cifra: `${notasPublicadas} notas`,
+    titulo: 'interactivas publicadas',
+    texto: 'Cada una va de los datos crudos a las conclusiones, con gráficos, código y fuentes.',
+  },
 ]
 
 function About() {
@@ -30,14 +47,15 @@ function About() {
         </p>
       </div>
 
-      <dl className="about__stats">
-        {stats.map((stat) => (
-          <div key={stat.label} className="about__stat">
-            <dt>{stat.value}</dt>
-            <dd>{stat.label}</dd>
-          </div>
+      <ul className="about__destacados">
+        {destacados.map((d) => (
+          <li key={d.titulo} className="about__destacado">
+            <p className="about__cifra">{d.cifra}</p>
+            <p className="about__destacado-titulo">{d.titulo}</p>
+            <p className="about__destacado-texto">{d.texto}</p>
+          </li>
         ))}
-      </dl>
+      </ul>
     </section>
   )
 }

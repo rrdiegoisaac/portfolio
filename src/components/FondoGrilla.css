@@ -1,0 +1,9 @@
+/* Fijo detrás de todo el contenido de la página de inicio */
+.fondo-grilla {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}

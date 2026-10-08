@@ -1,16 +1,31 @@
+/* La página de inicio usa siempre un tema azul marino oscuro: redefine los colores de
+   index.css solo dentro de .home, así las notas de proyecto mantienen su tema. */
 .home {
+  --bg: #0b1426;
+  --surface: #13203a;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --accent: #5eead4;
+  --accent-text: #0b1426;
+  --border: #22314f;
+  --grilla-punto: #64748b;
+
   position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
 }
 
 /* Halo de luz que sigue al cursor (solo con mouse; en pantallas táctiles no se ve) */
 .home__halo {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
   background: radial-gradient(
     600px circle at var(--x, -1000px) var(--y, -1000px),
-    color-mix(in srgb, var(--accent) 9%, transparent),
+    color-mix(in srgb, #1d4ed8 22%, transparent),
     transparent 80%
   );
 }
@@ -22,6 +37,8 @@
 }
 
 .home__layout {
+  position: relative;
+  z-index: 1;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;

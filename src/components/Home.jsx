@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import FondoGrilla from './FondoGrilla'
 import Hero from './Hero'
 import About from './About'
 import Skills from './Skills'
@@ -7,7 +8,8 @@ import Contact from './Contact'
 import './Home.css'
 
 // Página de inicio en dos columnas: a la izquierda, la presentación fija (Hero);
-// a la derecha, las secciones. Un halo de luz suave sigue al cursor.
+// a la derecha, las secciones. De fondo, una grilla de puntos animada y un halo
+// de luz que sigue al cursor.
 function Home() {
   const halo = useRef(null)
 
@@ -23,6 +25,7 @@ function Home() {
 
   return (
     <div className="home">
+      <FondoGrilla />
       <div className="home__halo" ref={halo} aria-hidden="true" />
       <div className="home__layout">
         <Hero />

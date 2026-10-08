@@ -4,34 +4,88 @@
   color: var(--muted);
 }
 
-.about__stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.5rem;
+.about__destacados {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
   margin: 2.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Cada tarjeta es una fila: la cifra a la izquierda y la explicación a la derecha */
+.about__destacado {
+  display: grid;
+  grid-template-columns: 10.5rem minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  column-gap: 1.25rem;
+  align-items: start;
+  position: relative;
+  overflow: hidden;
+  padding: 1.25rem 1.25rem 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: linear-gradient(100deg, color-mix(in srgb, var(--surface) 95%, transparent), color-mix(in srgb, var(--bg) 70%, transparent));
+  backdrop-filter: blur(4px);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+/* Barra de color en el borde izquierdo */
+.about__destacado::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--accent), transparent);
+}
+
+.about .about__cifra {
+  grid-row: 1 / 3;
 }
 
 @media (max-width: 560px) {
-  .about__stats {
+  .about__destacado {
     grid-template-columns: minmax(0, 1fr);
-    gap: 1rem;
+  }
+
+  .about .about__cifra {
+    grid-row: auto;
+    margin-bottom: 0.35rem;
   }
 }
 
-.about__stat {
-  padding-left: 1rem;
-  border-left: 2px solid var(--accent);
+.about__destacado:hover {
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+  transform: translateX(4px);
 }
 
-.about__stat dt {
-  font-size: 1.5rem;
+.about .about__cifra {
+  align-self: center;
+  margin: 0;
+  font-size: 1.9rem;
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--accent);
 }
 
-.about__stat dd {
-  margin: 0.25rem 0 0;
-  font-size: 0.85rem;
-  line-height: 1.45;
+.about .about__destacado-titulo {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.about .about__destacado-texto {
+  margin: 0.3rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
   color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about__destacado {
+    transition: none;
+  }
 }

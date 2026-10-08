@@ -18,6 +18,36 @@
   }
 }
 
+/* Foto de perfil (o iniciales mientras no haya foto) */
+.hero__foto {
+  display: grid;
+  place-items: center;
+  width: 7rem;
+  height: 7rem;
+  margin-bottom: 1.5rem;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  padding: 4px;
+  background-clip: content-box;
+  background-color: var(--surface);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 12%, transparent);
+  overflow: hidden;
+}
+
+.hero__foto img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.hero__foto span {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+
 .hero__name {
   margin: 0;
   font-size: clamp(2.4rem, 5vw, 3.2rem);

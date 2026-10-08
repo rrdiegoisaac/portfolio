@@ -8,6 +8,10 @@ const SECCIONES = [
   { id: 'contacto', texto: 'Contacto' },
 ]
 
+// Foto de perfil: pon el archivo en public/ (ej. public/foto.jpg) y cambia null por '/foto.jpg'.
+// Mientras sea null se muestran las iniciales.
+const FOTO = null
+
 const REDES = [{ texto: 'GitHub', href: 'https://github.com/rrdiegoisaac' }]
 
 // Columna izquierda de la página de inicio: queda fija en pantallas anchas.
@@ -45,6 +49,9 @@ function Hero() {
   return (
     <header className="hero" id="inicio">
       <div>
+        <div className="hero__foto">
+          {FOTO ? <img src={FOTO} alt="Diego Riquelme" /> : <span aria-hidden="true">DR</span>}
+        </div>
         <h1 className="hero__name">Diego Riquelme</h1>
         <p className="hero__role">Data Analyst</p>
         <p className="hero__tagline">
