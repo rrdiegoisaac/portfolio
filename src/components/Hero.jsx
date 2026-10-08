@@ -1,27 +1,51 @@
+import PuntosFlotantes from './PuntosFlotantes'
 import './Hero.css'
 
-const skills = ['SQL', 'Python', 'Power BI']
+const ENLACES = [
+  { href: '#sobre-mi', texto: 'Sobre mí' },
+  { href: '#habilidades', texto: 'Habilidades' },
+  { href: '#proyectos', texto: 'Proyectos' },
+  { href: '#contacto', texto: 'Contacto' },
+]
+
+// La mitad de los enlaces va a cada lado del monograma
+const izquierda = ENLACES.slice(0, 2)
+const derecha = ENLACES.slice(2)
 
 function Hero() {
   return (
     <section className="hero" id="inicio">
-      <div className="hero__content">
-        <p className="hero__greeting">Hola, soy</p>
-        <h1 className="hero__name">Diego Riquelme</h1>
+      <PuntosFlotantes />
 
-        <p className="hero__role">
-          <span className="hero__role-title">Data Analyst</span>
-          {skills.map((skill) => (
-            <span key={skill} className="hero__skill">
-              {skill}
-            </span>
+      <nav className="hero__nav" aria-label="Secciones">
+        <ul className="hero__nav-lista">
+          {izquierda.map((e) => (
+            <li key={e.href}>
+              <a href={e.href}>{e.texto}</a>
+            </li>
           ))}
-        </p>
+        </ul>
+        <a href="#inicio" className="hero__monograma" aria-label="Inicio">
+          DR
+        </a>
+        <ul className="hero__nav-lista">
+          {derecha.map((e) => (
+            <li key={e.href}>
+              <a href={e.href}>{e.texto}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
+      <div className="hero__content">
+        <p className="hero__kicker">Diego Riquelme · Data Analyst</p>
+        <h1 className="hero__title">
+          Datos que se convierten en decisiones y en historias
+        </h1>
         <p className="hero__description">
-          Convierto datos operacionales en decisiones. Llevo 2 años en
-          telecomunicaciones automatizando procesos con SQL Server y Python,
-          integrando SAP y Oracle, y construyendo dashboards en Power BI.
+          Automatizo procesos con SQL y Python, construyo dashboards en Power BI
+          y, en mis proyectos, sigo los datos desde la fuente hasta las
+          conclusiones.
         </p>
 
         <div className="hero__actions">
@@ -33,6 +57,10 @@ function Hero() {
           </a>
         </div>
       </div>
+
+      <a href="#sobre-mi" className="hero__mas">
+        Más abajo
+      </a>
     </section>
   )
 }
