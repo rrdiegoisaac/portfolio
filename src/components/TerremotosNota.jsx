@@ -27,7 +27,7 @@ import SismosPorLatitud from './SismosPorLatitud'
 import SismosPorZona from './SismosPorZona'
 import TiempoAnual from './TiempoAnual'
 import { nombreTerremoto } from './terremotos'
-import './TerremotosNota.css'
+import './Nota.css'
 
 // Las cifras se leen de los JSON del análisis. Las conclusiones escritas se
 // verificaron con los datos 2000–2026: revisarlas si se vuelve a correr el análisis.
