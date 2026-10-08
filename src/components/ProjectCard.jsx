@@ -6,11 +6,8 @@ function ProjectCard({ project }) {
   return (
     <Link to={`/proyectos/${project.slug}`} className="project-card" style={{ '--card-color': project.color }}>
       <div className="project-card__cover" aria-hidden="true">
-        {project.image ? (
-          <img src={project.image} alt="" className="project-card__image" />
-        ) : (
-          <span className="project-card__estado">{project.nota ? 'Nota' : 'Pronto'}</span>
-        )}
+        {project.image && <img src={project.image} alt="" className="project-card__image" loading="lazy" />}
+        <span className="project-card__estado">{project.nota ? 'Nota' : 'Pronto'}</span>
       </div>
 
       <div className="project-card__body">

@@ -1,5 +1,5 @@
 // Datos de los proyectos: alimentan las tarjetas de la Home y cada página /proyectos/:slug.
-// Para agregar una imagen de portada, pon el archivo en public/ y agrega image: '/nombre.png'.
+// image: miniatura de la lista de proyectos, en public/proyectos/ (16:10, ~640 × 400 px).
 // nota: true cuando la nota del proyecto ya está publicada (registrada en ProjectPage.jsx).
 
 const GITHUB_USER = 'rrdiegoisaac'
@@ -7,6 +7,7 @@ const GITHUB_USER = 'rrdiegoisaac'
 const projects = [
   {
     slug: 'terremotos-chile',
+    image: '/proyectos/terremotos-chile.webp',
     nota: true,
     title: 'Dónde, cuánto y a qué profundidad tiembla en Chile',
     tags: ['Web scraping', 'SQLite', 'Geoanálisis'],
@@ -19,6 +20,7 @@ const projects = [
   },
   {
     slug: 'portal-inmobiliario',
+    image: '/proyectos/portal-inmobiliario.svg',
     title: 'Propiedades en Portal Inmobiliario',
     tags: ['Web scraping', 'ETL', 'Machine Learning'],
     summary:
@@ -29,6 +31,7 @@ const projects = [
   },
   {
     slug: 'delitos-chile',
+    image: '/proyectos/delitos-chile.webp',
     nota: true,
     title: 'Qué dicen (y qué no) los registros policiales de Chile',
     tags: ['Web scraping', 'SQLite', 'Series de tiempo'],
@@ -40,6 +43,7 @@ const projects = [
   },
   {
     slug: 'segmentacion-clientes',
+    image: '/proyectos/segmentacion-clientes.svg',
     title: 'Segmentación de clientes',
     tags: ['Clustering', 'Feature engineering'],
     summary:
