@@ -2,7 +2,7 @@
 
 ## Quién soy y cómo trabajar conmigo
 
-- Data Analyst con 2 años de experiencia en telecomunicaciones: SQL Server, Python y Power BI. Ingeniero comercial de formación. No soy desarrollador frontend.
+- Data Analyst con 3 años de experiencia en telecomunicaciones: SQL Server, Python y Power BI. Ingeniero comercial de formación. No soy desarrollador frontend.
 - **Respóndeme en español.**
 - **No me expliques conceptos de React o frontend** mientras construyes. Haz los cambios y dame un resumen corto de qué cambió y qué debo revisar o decidir.
 - **Commits:** solo a mi nombre. **Nunca agregues `Co-Authored-By: Claude`** ni otra atribución a Claude en commits o PRs. Usa conventional commits en español (`feat(...)`, `fix(...)`, `docs:`), un commit por cambio lógico.

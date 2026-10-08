@@ -8,13 +8,43 @@
   --accent: #5eead4;
   --accent-text: #0b1426;
   --border: #22314f;
-  --grilla-punto: #64748b;
 
   position: relative;
   isolation: isolate;
   min-height: 100vh;
   background-color: var(--bg);
   color: var(--text);
+}
+
+/* Fondo: dos manchas de color muy difuminadas que se desplazan lento */
+.home__fondo {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 35% at 20% 25%, color-mix(in srgb, #1d4ed8 35%, transparent), transparent 70%),
+    radial-gradient(35% 40% at 80% 75%, color-mix(in srgb, #0f766e 32%, transparent), transparent 70%);
+  filter: blur(40px);
+  animation: home-fondo 40s ease-in-out infinite alternate;
+}
+
+@keyframes home-fondo {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(6%, 4%) rotate(8deg);
+  }
+  100% {
+    transform: translate(-5%, 6%) rotate(-6deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home__fondo {
+    animation: none;
+  }
 }
 
 /* Halo de luz que sigue al cursor (solo con mouse; en pantallas táctiles no se ve) */

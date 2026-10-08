@@ -84,6 +84,17 @@
   color: var(--muted);
 }
 
+.about__destacado-texto a {
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.about__destacado-texto a:hover,
+.about__destacado-texto a:focus-visible {
+  text-decoration: underline;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .about__destacado {
     transition: none;

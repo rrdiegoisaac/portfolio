@@ -1,25 +1,22 @@
-import projects from '../data/projects'
 import './About.css'
 
-const notasPublicadas = projects.filter((p) => p.nota).length
-
-// Cifras de los proyectos: 157.384 sismos (catálogo del CSN, terremotos-chile) y
-// 36,9 millones de casos policiales (CEAD, delincuencia-chile). Actualizarlas si cambian los datos.
+// Tarjetas de presentación. enlace es opcional.
 const destacados = [
   {
-    cifra: '2 años',
-    titulo: 'como Data Analyst en telecomunicaciones',
-    texto: 'Automatización con SQL Server y Python, datos de SAP y Oracle, y dashboards en Power BI.',
+    cifra: '3 años',
+    titulo: 'como Data Analyst',
+    texto: 'En telecomunicaciones: automatización con SQL Server y Python, datos de SAP y Oracle, y dashboards en Power BI.',
   },
   {
-    cifra: '37 millones',
-    titulo: 'de sismos y casos policiales en mis análisis',
-    texto: '157.384 sismos del CSN y 36,9 millones de casos del CEAD, obtenidos con web scraping.',
+    cifra: 'Kaggle',
+    titulo: 'Competencias y datasets abiertos',
+    texto: 'Participo en competencias de modelos predictivos y publico datasets para la comunidad, como el catálogo de sismos de Chile 2000–2026.',
+    enlace: { texto: 'Ver perfil', href: 'https://www.kaggle.com/diegoisaac1' },
   },
   {
-    cifra: `${notasPublicadas} notas`,
-    titulo: 'interactivas publicadas',
-    texto: 'Cada una va de los datos crudos a las conclusiones, con gráficos, código y fuentes.',
+    cifra: 'Ing. Comercial',
+    titulo: 'Formación en negocios',
+    texto: 'Mi base para entender qué pregunta hay detrás de cada análisis y comunicar los resultados a quienes toman decisiones.',
   },
 ]
 
@@ -40,11 +37,6 @@ function About() {
           Service. Automatizo tareas con Python (Selenium, SQLAlchemy)
           para que los flujos de datos sean eficientes y confiables.
         </p>
-        <p>
-          Además participo en competencias de Kaggle, donde desarrollo
-          modelos predictivos con redes neuronales, árboles de decisión y
-          clustering.
-        </p>
       </div>
 
       <ul className="about__destacados">
@@ -52,7 +44,17 @@ function About() {
           <li key={d.titulo} className="about__destacado">
             <p className="about__cifra">{d.cifra}</p>
             <p className="about__destacado-titulo">{d.titulo}</p>
-            <p className="about__destacado-texto">{d.texto}</p>
+            <p className="about__destacado-texto">
+              {d.texto}
+              {d.enlace && (
+                <>
+                  {' '}
+                  <a href={d.enlace.href} target="_blank" rel="noreferrer">
+                    {d.enlace.texto} ↗
+                  </a>
+                </>
+              )}
+            </p>
           </li>
         ))}
       </ul>
