@@ -1,0 +1,146 @@
+.mapa-coropletas__selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.mapa-coropletas__boton {
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background-color: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.mapa-coropletas__boton[aria-pressed='true'] {
+  border-color: var(--accent);
+  background-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.mapa-coropletas__boton:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.mapa-coropletas__cuerpo {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 640px) {
+  .mapa-coropletas__cuerpo {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.mapa-coropletas__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.mapa-coropletas__zona {
+  stroke: var(--bg);
+  stroke-width: 0.6;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  cursor: pointer;
+}
+
+.mapa-coropletas__zona:focus {
+  outline: none;
+}
+
+.mapa-coropletas__borde-activo {
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+/* Doble clase: le gana al margen de los párrafos de .nota */
+.mapa-coropletas .mapa-coropletas__nombre {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.mapa-coropletas .mapa-coropletas__valor {
+  margin: 0.15rem 0 0.35rem;
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.mapa-coropletas__valor span {
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.mapa-coropletas .mapa-coropletas__meta {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.mapa-coropletas .mapa-coropletas__nota {
+  margin: 0.5rem 0 0;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  background-color: var(--surface);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.mapa-coropletas__detalle {
+  min-height: 9.5rem;
+}
+
+.mapa-coropletas__leyenda {
+  margin-top: 1.25rem;
+  font-size: 0.85rem;
+}
+
+.mapa-coropletas .mapa-coropletas__leyenda-titulo {
+  margin: 0 0 0.4rem;
+  font-weight: 600;
+}
+
+.mapa-coropletas__leyenda ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mapa-coropletas__leyenda li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1.8;
+}
+
+.mapa-coropletas__muestra {
+  width: 1.1rem;
+  height: 0.8rem;
+  border-radius: 2px;
+}
+
+.mapa-coropletas .mapa-coropletas__ayuda {
+  margin: 0.5rem 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
