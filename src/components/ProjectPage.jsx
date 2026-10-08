@@ -8,6 +8,7 @@ import './ProjectPage.css'
 // sus gráficos y datos al resto del sitio.
 const articles = {
   'terremotos-chile': lazy(() => import('./TerremotosNota')),
+  'delitos-chile': lazy(() => import('./DelitosNota')),
 }
 
 function ProjectPage() {

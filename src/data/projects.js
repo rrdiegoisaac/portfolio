@@ -27,12 +27,12 @@ const projects = [
   },
   {
     slug: 'delitos-chile',
-    title: 'Delitos en Chile',
-    tags: ['Web scraping', 'Streamlit'],
+    title: 'Qué dicen (y qué no) los registros policiales de Chile',
+    tags: ['Web scraping', 'SQLite', 'Series de tiempo'],
     summary:
-      'Histórico de 35 delitos en Chile obtenido con web scraping desde el CEAD, con limpieza, análisis de los datos y un frontend interactivo construido en Streamlit.',
-    stack: ['Python', 'Web scraping', 'Streamlit'],
-    repo: `https://github.com/${GITHUB_USER}/analisis-delictual-chile`,
+      'Los casos policiales del CEAD desde 2005, mes a mes y para las 346 comunas, obtenidos con web scraping: cómo cambiaron los delitos, dónde se concentran y qué cambios del propio registro hay que tener en cuenta antes de sacar conclusiones.',
+    stack: ['Python', 'requests', 'BeautifulSoup', 'SQLite', 'pandas'],
+    repo: `https://github.com/${GITHUB_USER}/delincuencia-chile`,
     color: '#9f1239',
   },
   {
