@@ -1,37 +1,81 @@
-/* Columna izquierda de la página de inicio. En pantallas anchas queda fija mientras
-   la columna derecha avanza; en celular va arriba y el menú se oculta. */
+/* Portada: barra de navegación arriba, texto a la izquierda y gráfico a la derecha.
+   Los colores vienen de los tokens que define .home (Home.css). */
 
 .hero {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 2rem;
-  padding: 4rem 0 3rem;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 1.5rem;
 }
 
-@media (min-width: 1024px) {
-  .hero {
-    position: sticky;
-    top: 0;
-    max-height: 100vh;
-    padding: 6rem 0;
-  }
+/* --- Navegación ------------------------------------------------------------------ */
+
+.hero__nav {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  max-width: 760px;
+  width: 100%;
+  margin: 0 auto;
 }
 
-/* Foto de perfil (o iniciales mientras no haya foto) */
+/* Línea fina detrás de los enlaces, cortada por la foto */
+.hero__nav::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: 1px solid var(--accent);
+  opacity: 0.45;
+}
+
+.hero__nav-lista {
+  position: relative;
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hero__nav-lista a {
+  display: block;
+  padding: 0.45rem 0.85rem;
+  border-radius: 4px;
+  background-color: var(--bg);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.hero__nav-lista a:hover,
+.hero__nav-lista a:focus-visible {
+  background-color: var(--accent);
+  color: var(--accent-text);
+}
+
 .hero__foto {
+  position: relative;
   display: grid;
   place-items: center;
-  width: 7rem;
-  height: 7rem;
-  margin-bottom: 1.5rem;
+  flex-shrink: 0;
+  width: 4.5rem;
+  height: 4.5rem;
+  padding: 3px;
   border: 2px solid var(--accent);
   border-radius: 50%;
-  padding: 4px;
-  background-clip: content-box;
   background-color: var(--surface);
-  box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 12%, transparent);
+  box-shadow: 0 0 0 5px var(--bg);
   overflow: hidden;
+  text-decoration: none;
 }
 
 .hero__foto img {
@@ -42,108 +86,170 @@
 }
 
 .hero__foto span {
-  font-size: 1.8rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 1.2rem;
   color: var(--accent);
 }
 
-.hero__name {
-  margin: 0;
-  font-size: clamp(2.4rem, 5vw, 3.2rem);
+@media (max-width: 640px) {
+  .hero__nav {
+    gap: 0.5rem;
+  }
+
+  .hero__nav::before {
+    display: none;
+  }
+
+  .hero__nav-lista {
+    flex-direction: column;
+  }
+
+  .hero__nav-lista:first-child {
+    align-items: flex-end;
+  }
+}
+
+/* --- Texto y gráfico ------------------------------------------------------------- */
+
+.hero__cuerpo {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 3rem;
+  align-items: center;
+  max-width: 1160px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 3rem 0 2rem;
+}
+
+@media (max-width: 860px) {
+  .hero__cuerpo {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+.hero__kicker {
+  margin: 0 0 1.25rem;
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hero__title {
+  margin: 0 0 1.5rem;
+  font-size: clamp(2.3rem, 5vw, 3.8rem);
   font-weight: 800;
-  line-height: 1.05;
+  line-height: 1.1;
   letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
-.hero__role {
-  margin: 0.75rem 0 0;
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-.hero__tagline {
-  max-width: 22rem;
-  margin: 1rem 0 0;
+.hero__description {
+  max-width: 34rem;
+  margin: 0 0 2rem;
+  font-size: 1.1rem;
   line-height: 1.6;
   color: var(--muted);
 }
 
-/* --- Menú con línea que crece en la sección activa -------------------------------- */
-
-.hero__nav {
-  display: none;
-}
-
-@media (min-width: 1024px) {
-  .hero__nav {
-    display: block;
-    margin-top: 4rem;
-  }
-}
-
-.hero__nav ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.hero__nav-link {
-  display: inline-flex;
-  align-items: center;
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
-  padding: 0.6rem 0;
-  font-size: 0.75rem;
+}
+
+.hero__button {
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   text-decoration: none;
-  color: var(--muted);
+  transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
 }
 
-.hero__nav-linea {
-  width: 2rem;
-  height: 1px;
-  background-color: currentColor;
-  transition: width 0.2s ease;
+.hero__button:hover {
+  transform: translateY(-2px);
 }
 
-.hero__nav-link:hover,
-.hero__nav-link:focus-visible,
-.hero__nav-link--activa {
+.hero__button--primary {
+  background-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.hero__button--secondary {
+  border: 1px solid var(--border);
+  background-color: var(--surface);
   color: var(--text);
 }
 
-.hero__nav-link:hover .hero__nav-linea,
-.hero__nav-link:focus-visible .hero__nav-linea,
-.hero__nav-link--activa .hero__nav-linea {
-  width: 4rem;
+.hero__button--secondary:hover {
+  border-color: var(--text);
 }
 
-/* --- Redes -------------------------------------------------------------------------- */
-
-.hero__redes {
-  display: flex;
-  gap: 1.25rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+/* El gráfico va en una tarjeta blanca, como una figura */
+.hero__grafico {
+  height: clamp(280px, 48vh, 460px);
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background-color: var(--surface);
+  box-shadow: 0 20px 45px -25px rgb(15 40 80 / 0.35);
 }
 
-.hero__redes a {
-  font-size: 0.9rem;
+.hero__button:focus-visible,
+.hero__foto:focus-visible,
+.hero__mas:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* --- Indicador para seguir bajando ------------------------------------------------- */
+
+.hero__mas {
+  align-self: center;
+  padding: 0.5rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  color: var(--muted);
+  color: var(--accent);
   text-decoration: none;
 }
 
-.hero__redes a:hover,
-.hero__redes a:focus-visible {
-  color: var(--accent);
+.hero__mas::after {
+  content: '';
+  display: block;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin: 0.4rem auto 0;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  animation: hero-mas 1.8s ease-in-out infinite;
+}
+
+@keyframes hero-mas {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 5px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__nav-linea {
+  .hero__mas::after {
+    animation: none;
+  }
+
+  .hero__button {
     transition: none;
   }
 }
