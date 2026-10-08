@@ -6,6 +6,7 @@ import violencia from '../data/delitos/03_violencia.json'
 import drogasArmas from '../data/delitos/04_drogas_armas.json'
 import regiones from '../data/delitos/05_regiones.json'
 import comunas from '../data/delitos/06_comunas.json'
+import mapas from '../data/delitos/07_mapas.json'
 import BuscadorComuna from './BuscadorComuna'
 import ChartFigure from './ChartFigure'
 import CodeBlock from './CodeBlock'
@@ -14,6 +15,7 @@ import DataTable from './DataTable'
 import DetencionesSubgrupo from './DetencionesSubgrupo'
 import HomicidiosAnual from './HomicidiosAnual'
 import IndiceNota from './IndiceNota'
+import MapaCoropletas from './MapaCoropletas'
 import QuiebresRegistro from './QuiebresRegistro'
 import RegionesRobos from './RegionesRobos'
 import RobosMovil from './RobosMovil'
@@ -183,6 +185,38 @@ const PANELES_TENDENCIA = [
   })),
 ]
 
+// Mapas: indicadores, zonas y referencia nacional
+const INDICADORES_MAPA = [
+  { clave: 'tasa_robos_violentos', nombre: `Robos violentos ${ANIO}`, formato: entero },
+  { clave: 'tasa_homicidios_3a', nombre: `Homicidios ${regiones.anios_homicidios.join('–')}`, formato: decimal1 },
+  { clave: 'tasa_vif', nombre: `Violencia intrafamiliar ${ANIO}`, formato: entero },
+  { clave: 'tasa_total', nombre: `Total 7 familias ${ANIO}`, formato: entero },
+]
+const ZONAS_REGIONES = Object.fromEntries(
+  regiones.regiones.map((r) => [r.region_codigo, { ...r, nombre: r.region, tasa_vif: r.f3 }]),
+)
+const FORMAS_REGIONES = mapas.pais.regiones.map((r) => ({ id: r.region_codigo, ruta: r.ruta }))
+const ZONAS_RM = Object.fromEntries(
+  comunas.comunas
+    .filter((c) => Math.floor(c.cut / 1000) === 13)
+    .map((c) => [
+      c.cut,
+      {
+        ...c,
+        nombre: c.comuna,
+        nota:
+          c.poblacion < comunas.poblacion_minima
+            ? `Menos de ${entero(comunas.poblacion_minima)} habitantes: unos pocos casos cambian mucho la tasa.`
+            : null,
+      },
+    ]),
+)
+const FORMAS_RM = mapas.rm.comunas.map((c) => ({ id: c.cut, ruta: c.ruta }))
+const robosRM = comunas.comunas.filter((c) => Math.floor(c.cut / 1000) === 13).reduce((t, c) => t + c.robos_violentos, 0)
+const robosPais = comunas.comunas.reduce((t, c) => t + c.robos_violentos, 0)
+const poblacionRM = comunas.comunas.filter((c) => Math.floor(c.cut / 1000) === 13).reduce((t, c) => t + c.poblacion, 0)
+const poblacionPais = comunas.comunas.reduce((t, c) => t + c.poblacion, 0)
+
 const COLUMNAS_SEMESTRE = [
   { key: 'familia', label: 'Familia' },
   { key: 'anterior', label: `Ene.–jun. ${semestre.anio - 1}`, numeric: true },
@@ -214,12 +248,12 @@ function DelitosNota() {
     <div className="nota" ref={refNota}>
       <IndiceNota contenedor={refNota} />
       <p className="nota__lead">
-        ¿Hay más delitos en Chile que antes? No soy experto en seguridad: soy
-        analista de datos. Así que hice lo que sé hacer: descargué los registros
-        policiales que publica el Centro de Estudios y Análisis del Delito
-        (CEAD)<Cita n={1} />, mes a mes desde {INICIO} y para cada una de las{' '}
-        {datos.comunas} comunas del país, y miré qué dicen y, sobre todo, qué no
-        pueden decir.
+        Los registros policiales son la fuente más citada cuando se habla de
+        delincuencia en Chile, y también una de las más fáciles de leer mal.
+        Descargué todos los casos policiales que publica el Centro de Estudios y
+        Análisis del Delito (CEAD)<Cita n={1} />, mes a mes desde {INICIO} y para cada
+        una de las {datos.comunas} comunas, y los analicé como cualquier conjunto de
+        datos: primero, cómo se generan; después, qué dicen.
       </p>
       <p>
         En 2024 hice una primera versión de este proyecto, con una aplicación en
@@ -521,6 +555,24 @@ function DelitosNota() {
         están en {porHomicidios[0].region} ({decimal1(porHomicidios[0].tasa_homicidios_3a)}) y{' '}
         {porHomicidios[1].region} ({decimal1(porHomicidios[1].tasa_homicidios_3a)}).
       </p>
+      <ChartFigure
+        wide
+        title="Casos policiales por cada 100.000 habitantes, por región"
+        subtitle="Elige un indicador. Pasa el cursor o toca una región para ver su detalle."
+        note={`Homicidios: promedio de ${regiones.anios_homicidios.join(' a ')}. El mapa no muestra las islas oceánicas ni el Territorio Antártico. Límites: INE. ${FUENTE_TASAS}`}
+      >
+        <MapaCoropletas
+          viewbox={mapas.pais.viewbox}
+          formas={FORMAS_REGIONES}
+          zonas={ZONAS_REGIONES}
+          indicadores={INDICADORES_MAPA}
+          referencia={{ ...regiones.pais, tasa_vif: regiones.pais.f3 }}
+          unidad="por 100.000 hab."
+          alto={680}
+          etiquetaZona="regiones"
+        />
+      </ChartFigure>
+
       <p>
         Pero la región con más robos violentos no es la que tiene más casos
         policiales en total. Con las 7 familias, la tasa más alta es la de{' '}
@@ -551,6 +603,31 @@ function DelitosNota() {
         {rankingRobos[2].comuna}.{' '}
         {regionesRanking.length === 1 && `Las ${rankingRobos.length} comunas del ranking son de la región ${regionesRanking[0]}.`}
       </p>
+
+      <p>
+        La Región Metropolitana concentra el {Math.round((robosRM / robosPais) * 100)}% de los
+        robos violentos del país, con el {Math.round((poblacionRM / poblacionPais) * 100)}% de
+        la población. Dentro de ella, las tasas más altas se agrupan en el centro de
+        Santiago y las comunas que lo rodean.
+      </p>
+
+      <ChartFigure
+        wide
+        title="Región Metropolitana: casos policiales por cada 100.000 habitantes, por comuna"
+        subtitle="Elige un indicador. Pasa el cursor o toca una comuna para ver su detalle."
+        note={`Homicidios: promedio de ${comunas.anios_homicidios.join(' a ')}. Límites comunales: INE. ${FUENTE_TASAS}`}
+      >
+        <MapaCoropletas
+          viewbox={mapas.rm.viewbox}
+          formas={FORMAS_RM}
+          zonas={ZONAS_RM}
+          indicadores={INDICADORES_MAPA}
+          referencia={{ ...regiones.pais, tasa_vif: regiones.pais.f3 }}
+          unidad="por 100.000 hab."
+          alto={560}
+          etiquetaZona="comunas de la región"
+        />
+      </ChartFigure>
 
       <ChartFigure
         title={`Las ${rankingRobos.length} comunas con más robos violentos por habitante, ${ANIO}`}
