@@ -23,7 +23,7 @@ Estado de los proyectos:
 |---|---|---|
 | Terremotos en Chile (`terremotos-chile`) | Completa | github.com/rrdiegoisaac/terremotos-chile (público) · dataset en Kaggle: kaggle.com/datasets/diegoisaac1/chile-earthquakes-20002026-csn-catalog |
 | Portal Inmobiliario | Pendiente | `analisis-datos-inmobiliarios` (privado por ahora) |
-| Delitos en Chile (`delitos-chile`) | Completa (falta publicar el repo) | `delincuencia-chile`, carpeta hermana de `portfolio`, aún sin remoto · versión 2024: github.com/rrdiegoisaac/delincuencia (pública) |
+| Delitos en Chile (`delitos-chile`) | Completa | github.com/rrdiegoisaac/delincuencia-chile (público) · versión 2024: github.com/rrdiegoisaac/delincuencia (pública) |
 | Segmentación de clientes | Pendiente | `customer-analysis` (privado por ahora) |
 
 ## Convenciones de código
