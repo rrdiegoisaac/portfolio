@@ -1,9 +1,9 @@
 import './Contact.css'
 
-// Los enlaces sin href no se muestran: completa LinkedIn y el correo cuando quieras publicarlos.
+// Los enlaces sin href no se muestran: completa el correo cuando quieras publicarlo.
 const links = [
   { label: 'GitHub', href: 'https://github.com/rrdiegoisaac' },
-  { label: 'LinkedIn', href: '' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/rrdiegoisaac/' },
   { label: 'Correo', href: '' }, // formato: 'mailto:tu@correo.com'
 ]
 
