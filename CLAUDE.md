@@ -56,6 +56,5 @@ Estado de los proyectos:
 
 ## Pendientes
 
-- Agregar el correo en `src/components/Contact.jsx` (hoy aparecen GitHub y LinkedIn).
 - Hacer las notas de los otros 2 proyectos (Portal Inmobiliario y segmentación de clientes).
 - Publicar el sitio en Vercel (ya está el `vercel.json` para las rutas de React Router).
