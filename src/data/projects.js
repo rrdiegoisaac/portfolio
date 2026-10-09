@@ -6,6 +6,18 @@ const GITHUB_USER = 'rrdiegoisaac'
 
 const projects = [
   {
+    slug: 'delitos-chile',
+    image: '/proyectos/delitos-chile.webp',
+    nota: true,
+    title: 'Qué dicen (y qué no) los registros policiales de Chile',
+    tags: ['Web scraping', 'SQLite', 'Series de tiempo'],
+    summary:
+      'Los casos policiales del CEAD desde 2005, mes a mes y para las 346 comunas, obtenidos con web scraping: cómo cambiaron los delitos, dónde se concentran y qué cambios del propio registro hay que tener en cuenta antes de sacar conclusiones.',
+    stack: ['Python', 'requests', 'BeautifulSoup', 'SQLite', 'pandas'],
+    repo: `https://github.com/${GITHUB_USER}/delincuencia-chile`,
+    color: '#9f1239',
+  },
+  {
     slug: 'terremotos-chile',
     image: '/proyectos/terremotos-chile.webp',
     nota: true,
@@ -28,18 +40,6 @@ const projects = [
     stack: ['Python', 'Web scraping', 'Regresión'],
     repo: `https://github.com/${GITHUB_USER}/analisis-datos-inmobiliarios`,
     color: '#0e7490',
-  },
-  {
-    slug: 'delitos-chile',
-    image: '/proyectos/delitos-chile.webp',
-    nota: true,
-    title: 'Qué dicen (y qué no) los registros policiales de Chile',
-    tags: ['Web scraping', 'SQLite', 'Series de tiempo'],
-    summary:
-      'Los casos policiales del CEAD desde 2005, mes a mes y para las 346 comunas, obtenidos con web scraping: cómo cambiaron los delitos, dónde se concentran y qué cambios del propio registro hay que tener en cuenta antes de sacar conclusiones.',
-    stack: ['Python', 'requests', 'BeautifulSoup', 'SQLite', 'pandas'],
-    repo: `https://github.com/${GITHUB_USER}/delincuencia-chile`,
-    color: '#9f1239',
   },
   {
     slug: 'segmentacion-clientes',
