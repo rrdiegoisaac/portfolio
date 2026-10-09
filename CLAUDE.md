@@ -14,6 +14,8 @@ Portafolio personal con React + Vite:
 - **Inicio:** Hero, Sobre mí, Habilidades, Proyectos (4 tarjetas) y Contacto.
 - **Una página por proyecto** (`/proyectos/:slug`): una nota interactiva al estilo The Pudding u Our World in Data, con texto narrativo, gráficos, fragmentos de código y fuentes citadas.
 
+Publicado en **https://rrdiegoisaac.vercel.app** (Vercel, plan Hobby): cada push a `main` se publica solo. `vercel.json` redirige todas las rutas a `index.html` para React Router.
+
 El repo es **privado**. Los repos de cada proyecto (el análisis en Python) son **públicos** en github.com/rrdiegoisaac.
 
 Estado de los proyectos:
@@ -57,4 +59,3 @@ Estado de los proyectos:
 ## Pendientes
 
 - Hacer las notas de los otros 2 proyectos (Portal Inmobiliario y segmentación de clientes).
-- Publicar el sitio en Vercel (ya está el `vercel.json` para las rutas de React Router).
