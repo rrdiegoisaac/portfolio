@@ -453,46 +453,6 @@ function atipicos(base) {
   }
 }
 
-// Serie mensual de 36 períodos con tendencia y estacionalidad de 12; la media móvil la
-// suaviza. Solo se ven 36 puntos: el resto queda escondido, con tamaño 0, sobre ellos.
-// La línea fina une los puntos donde se dibujan (pantalla), así los sigue mientras flotan.
-function serieTiempo(base) {
-  const PERIODOS = 36
-  const VENTANA = 12
-  const serie = Array.from({ length: PERIODOS }, (_, k) => {
-    const x = 0.03 + (k / (PERIODOS - 1)) * 0.94
-    return { x, y: limitar(0.22 + 0.45 * x + 0.12 * Math.sin((2 * Math.PI * k) / 12) + 0.03 * base[k].n1) }
-  })
-  const puntos = base.map((b) => {
-    const visible = b.i < PERIODOS
-    return { ...serie[b.i % PERIODOS], grupo: 0, tamano: visible ? 5 / b.r : 0 }
-  })
-  const movil = serie.slice(VENTANA - 1).map((p, k) => ({
-    x: p.x,
-    y: serie.slice(k, k + VENTANA).reduce((s, q) => s + q.y, 0) / VENTANA,
-  }))
-  return {
-    nombre: `Serie de tiempo · media móvil de ${VENTANA}`,
-    puntos,
-    fondo: ({ ctx, pantalla, colorEje, alfa }) => {
-      ctx.globalAlpha = alfa * 0.5
-      ctx.strokeStyle = colorEje
-      ctx.lineWidth = 1.5
-      ctx.beginPath()
-      pantalla.slice(0, PERIODOS).forEach(([x, y]) => ctx.lineTo(x, y))
-      ctx.stroke()
-    },
-    frente: ({ ctx, px, py, rgba, alfa }) => {
-      ctx.globalAlpha = alfa
-      ctx.strokeStyle = rgba(1, 1)
-      ctx.lineWidth = 3
-      ctx.beginPath()
-      movil.forEach((p) => ctx.lineTo(px(p.x), py(p.y)))
-      ctx.stroke()
-    },
-  }
-}
-
 // Antes y después en 14 filas, ordenadas por el valor inicial. Solo se ven 28 puntos
 // (2 por fila); el resto queda escondido, con tamaño 0, en los extremos de cada fila.
 function dumbbell(base) {
@@ -603,7 +563,6 @@ function crearEscenas(base) {
     segmentacion(base),
     logistica(base),
     dumbbell(base),
-    serieTiempo(base),
     svm(base),
     histogramaSesgado(base),
     cajas(base),
@@ -612,10 +571,10 @@ function crearEscenas(base) {
 }
 
 // Gráfico decorativo de la portada: los mismos puntos pasan por varios tipos de gráfico
-// (regresiones, cajas, outliers, k-means, antes y después, serie de tiempo, SVM, histograma,
-// árbol de decisión). Flotan, se apartan del
-// cursor y el ciclo se pausa con el cursor encima. Un clic en uno de los puntitos de arriba
-// salta a ese gráfico; un clic en cualquier otra parte adelanta al siguiente.
+// (regresiones, outliers, k-means, antes y después, SVM, histograma, cajas, árbol de decisión).
+// Flotan, se apartan del cursor y, con el cursor encima, se muestra el nombre del gráfico.
+// Un clic en uno de los puntitos de arriba salta a ese gráfico; un clic en cualquier otra
+// parte adelanta al siguiente.
 // Con "reducir movimiento" queda quieto y solo cambia con clic.
 // tema: al cambiar, solo se vuelven a leer los colores; el ciclo sigue donde iba.
 function DispersionHero({ tema }) {
@@ -727,9 +686,7 @@ function DispersionHero({ tema }) {
         ctx.beginPath()
         ctx.rect(px(0), py(1), px(1) - px(0), py(0) - py(1))
         ctx.clip()
-        capas.forEach(([escena, alfa]) =>
-          escena[parte]?.({ ctx, px, py, pantalla, rgba, colorEje, colorBorde, alfa }),
-        )
+        capas.forEach(([escena, alfa]) => escena[parte]?.({ ctx, px, py, rgba, colorEje, colorBorde, alfa }))
         ctx.restore()
       }
 
@@ -798,9 +755,7 @@ function DispersionHero({ tema }) {
       })
     }
 
-    // Con el cursor encima, el gráfico se queda quieto (pero un cambio ya empezado termina)
     const avanzarReloj = (dt) => {
-      if (encima && reloj < ESPERA) return
       reloj += dt
       if (reloj >= ESPERA + TRANSICION) {
         indice = siguiente()
