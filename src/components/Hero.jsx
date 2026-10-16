@@ -44,8 +44,8 @@ function Hero({ tema }) {
 
       <div className="hero__cuerpo">
         <div className="hero__texto">
-          <p className="hero__kicker">Diego Riquelme · Data Analyst</p>
-          <h1 className="hero__title">Datos que se convierten en decisiones y en historias</h1>
+          <p className="hero__kicker">Diego Riquelme · Data Analyst &amp; Data Engineer</p>
+          <h1 className="hero__title">Construyo los pipelines y cuento lo que muestran los datos</h1>
           <p className="hero__description">
             Automatizo procesos con SQL y Python, construyo dashboards en Power BI
             y, en mis proyectos, sigo los datos desde la fuente hasta las

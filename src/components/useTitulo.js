@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-const SITIO = 'Diego Riquelme · Data Analyst'
+const SITIO = 'Diego Riquelme · Data Analyst & Data Engineer'
 
 // Título de la pestaña del navegador. Sin argumento, usa el del sitio.
 function useTitulo(titulo) {
