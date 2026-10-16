@@ -7,6 +7,7 @@ const COLORES_CSS = ['--chart-1', '--chart-2', '--chart-3']
 const MARGEN = 28
 const ESPERA = 3000 // ms que se muestra cada gráfico
 const TRANSICION = 1600 // ms que tardan los puntos en llegar al gráfico siguiente
+const ESPACIO_INDICADOR = 16 // px entre los puntitos que indican el gráfico actual
 
 // Números pseudoaleatorios con semilla: los gráficos son siempre los mismos
 function generador(semilla) {
@@ -98,11 +99,13 @@ function lineal(base, intercepto, pendiente, ruido) {
 
 function logistica(base) {
   const probabilidad = (x) => sigmoide((x - 0.5) * 11)
-  // Los puntos van en una franja abajo (clase 0) o arriba (clase 1), fuera del rango de la
-  // curva, para que ninguno quede del lado de la curva que no le corresponde
+  const curva = (x) => 0.17 + 0.66 * probabilidad(x)
+  // Los puntos se dispersan cerca de la curva: la clase 1 siempre por encima y la clase 0
+  // siempre por debajo, para que ninguno quede del lado que no le corresponde
   const puntos = base.map((b) => {
     const clase = b.u2 < probabilidad(b.u1) ? 1 : 0
-    const y = clase ? limitar(0.93 + b.n1 * 0.02, 0.89, 0.97) : limitar(0.07 + b.n1 * 0.02, 0.03, 0.11)
+    const distancia = 0.03 + Math.abs(b.n1) * 0.09
+    const y = clase ? Math.min(0.97, curva(b.u1) + distancia) : Math.max(0.03, curva(b.u1) - distancia)
     return { x: b.u1, y, grupo: clase }
   })
   return {
@@ -115,7 +118,7 @@ function logistica(base) {
       ctx.beginPath()
       for (let k = 0; k <= 80; k++) {
         const x = k / 80
-        ctx.lineTo(px(x), py(0.17 + 0.66 * probabilidad(x)))
+        ctx.lineTo(px(x), py(curva(x)))
       }
       ctx.stroke()
     },
@@ -340,7 +343,8 @@ function crearEscenas(base) {
 
 // Gráfico decorativo de la portada: los mismos puntos pasan por varios tipos de gráfico
 // (regresiones, árbol de decisión, cajas, k-means, histograma). Flotan, se apartan del
-// cursor, el ciclo se pausa con el cursor encima y un clic adelanta al siguiente.
+// cursor y el ciclo se pausa con el cursor encima. Un clic en uno de los puntitos de arriba
+// salta a ese gráfico; un clic en cualquier otra parte adelanta al siguiente.
 // Con "reducir movimiento" queda quieto y solo cambia con clic.
 // tema: al cambiar, solo se vuelven a leer los colores; el ciclo sigue donde iba.
 function DispersionHero({ tema }) {
@@ -359,9 +363,11 @@ function DispersionHero({ tema }) {
     const estado = base.map(() => ({ dx: 0, dy: 0, vx: 0, vy: 0 }))
     let actuales = []
     let indice = 0
+    let destino = null // gráfico elegido con los puntitos; si no hay, se pasa al siguiente
     let reloj = 0 // ms desde que se mostró el gráfico actual
     let ultimo = null
     let encima = false
+    let indiceSobre = null
     let ancho = 0
     let alto = 0
     let colores = []
@@ -397,7 +403,9 @@ function DispersionHero({ tema }) {
     const px = (x) => MARGEN + x * (ancho - MARGEN * 2)
     const py = (y) => alto - MARGEN - y * (alto - MARGEN * 2)
 
-    const siguiente = () => (indice + 1) % escenas.length
+    const siguiente = () => destino ?? (indice + 1) % escenas.length
+    // Puntitos que indican el gráfico actual, arriba a la derecha
+    const xIndicador = (j) => ancho - MARGEN - (escenas.length - 1 - j) * ESPACIO_INDICADOR
     const avance = () => (reloj < ESPERA ? 0 : entre01((reloj - ESPERA) / TRANSICION))
 
     // Posición y color de cada punto, a medio camino entre el gráfico actual y el siguiente
@@ -481,9 +489,10 @@ function DispersionHero({ tema }) {
         ctx.fillText(escena.nombre, MARGEN, MARGEN / 2)
       })
       escenas.forEach((_, j) => {
-        ctx.globalAlpha = j === indice ? 0.9 : 0.3
+        const actual = j === indice
+        ctx.globalAlpha = actual ? 0.9 : j === indiceSobre ? 0.6 : 0.3
         ctx.beginPath()
-        ctx.arc(ancho - MARGEN - (escenas.length - 1 - j) * 10, MARGEN / 2, 2.5, 0, Math.PI * 2)
+        ctx.arc(xIndicador(j), MARGEN / 2, actual ? 4 : 3, 0, Math.PI * 2)
         ctx.fill()
       })
       ctx.globalAlpha = 1
@@ -514,8 +523,16 @@ function DispersionHero({ tema }) {
       reloj += dt
       if (reloj >= ESPERA + TRANSICION) {
         indice = siguiente()
+        destino = null
         reloj = 0
       }
+    }
+
+    // Puntito del indicador bajo el cursor, o null
+    const indicadorEn = (x, y) => {
+      if (Math.abs(y - MARGEN / 2) > ESPACIO_INDICADOR / 2) return null
+      const j = escenas.findIndex((_, k) => Math.abs(x - xIndicador(k)) <= ESPACIO_INDICADOR / 2)
+      return j === -1 ? null : j
     }
 
     const cuadro = (ahora) => {
@@ -536,6 +553,7 @@ function DispersionHero({ tema }) {
       const rect = canvas.getBoundingClientRect()
       cursor.x = e.clientX - rect.left
       cursor.y = e.clientY - rect.top
+      indiceSobre = indicadorEn(cursor.x, cursor.y)
     }
     const alSalir = () => {
       cursor.x = -9999
@@ -547,13 +565,19 @@ function DispersionHero({ tema }) {
     const alSalirCanvas = () => {
       encima = false
     }
-    const alClic = () => {
+    const alClic = (e) => {
+      const rect = canvas.getBoundingClientRect()
+      const elegido = indicadorEn(e.clientX - rect.left, e.clientY - rect.top)
+      if (elegido === indice) return
       if (reducirMovimiento) {
-        indice = siguiente()
+        indice = elegido ?? siguiente()
         dibujar(0)
-      } else if (reloj < ESPERA) {
-        reloj = ESPERA
+        return
       }
+      // Si ya iba en un cambio, se da por terminado y se parte desde ahí
+      if (reloj >= ESPERA) indice = siguiente()
+      destino = elegido === indice ? null : elegido
+      reloj = elegido === indice ? 0 : ESPERA
     }
 
     leerColores()
