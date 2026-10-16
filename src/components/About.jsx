@@ -5,7 +5,7 @@ const destacados = [
   {
     cifra: '3 años',
     titulo: 'como Data Analyst',
-    texto: 'En telecomunicaciones: automatización con SQL Server y Python, datos de SAP y Oracle, y dashboards en Power BI.',
+    texto: 'En telecomunicaciones: desarrollo y administración de SQL Server, ETL con Python, datos de SAP y Oracle, y dashboards en Power BI diseñados en Figma.',
   },
   {
     cifra: 'Kaggle',
@@ -26,16 +26,25 @@ function About() {
       <h2 className="home__seccion-titulo">Sobre mí</h2>
       <div className="about__text">
         <p>
-          Trabajo como Data Analyst en la industria de telecomunicaciones,
-          con foco en la automatización y en optimizar el rendimiento de
-          las consultas. Desarrollo y mantengo stored procedures, jobs y
-          triggers en SQL Server, integrando datos de SAP y Oracle.
+          Trabajo como Data Analyst en la industria de telecomunicaciones.
+          En el backend administro y optimizo bases en SQL Server: desarrollo
+          stored procedures, jobs y triggers, trabajo con índices y reviso el
+          rendimiento con Activity Monitor y SQL Server Profiler. Integro
+          datos de SAP y Oracle.
         </p>
         <p>
-          Creo y mantengo KPIs, reportes y dashboards en Power BI (DAX,
-          Power Query) que se actualizan solos con schedules en Power BI
-          Service. Automatizo tareas con Python (Selenium, SQLAlchemy)
-          para que los flujos de datos sean eficientes y confiables.
+          Construyo procesos ETL en Python: extraigo datos con web scraping
+          (Selenium) y consumiendo APIs (requests), los limpio y los cargo a
+          la base con SQLAlchemy, con
+          ejecuciones programadas para que los flujos corran solos y sean
+          confiables.
+        </p>
+        <p>
+          En Power BI modelo las relaciones entre tablas, escribo medidas DAX
+          (y las optimizo con DAX Studio) y publico reportes que se actualizan
+          solos en Power BI Service. También diseño en Figma los fondos y la
+          navegación de esos reportes. Aplico buenas prácticas en ambos lados:
+          un backend ordenado y eficiente, y reportes claros de leer.
         </p>
       </div>
 
