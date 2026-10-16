@@ -3,21 +3,29 @@ import './Skills.css'
 
 const skillGroups = [
   {
-    title: 'SQL Server',
+    title: 'SQL y bases de datos',
     descripcion:
-      'Desarrollo y administro bases en producción: automatizo con stored procedures, jobs y triggers, monitoreo la carga y optimizo las consultas lentas.',
+      'Trabajo con SQL Server, PostgreSQL y SQLite. En producción desarrollo y administro SQL Server: automatizo con stored procedures, jobs y triggers, diagnostico cuellos de botella y materializo en data marts los cálculos más costosos.',
     skills: [
+      'SQL Server',
+      'PostgreSQL',
+      'SQLite',
       'Stored Procedures',
       'Jobs',
       'Triggers',
       'Índices',
       'Optimización de consultas',
+      'Cuellos de botella',
+      'Data marts',
+      'Tablas precalculadas',
+      'Cargas batch programadas',
       'Activity Monitor',
       'SQL Server Profiler',
       'Administración de bases',
       'Buenas prácticas de backend',
       'SAP',
       'Oracle',
+      'SGS',
     ],
   },
   {
@@ -51,6 +59,7 @@ const skillGroups = [
       'Actualización incremental',
       'DAX Studio',
       'Power BI Service',
+      'API REST de Fabric',
       'Actualización programada',
       'KPIs y reportes',
     ],
