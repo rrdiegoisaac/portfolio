@@ -17,8 +17,9 @@ const derecha = ENLACES.slice(2)
 const FOTO = 'https://github.com/rrdiegoisaac.png'
 
 // Portada: barra de navegación con la foto al centro, el texto a la izquierda y un
-// gráfico de dispersión animado a la derecha.
-function Hero() {
+// gráfico animado a la derecha que va pasando por varios tipos de gráfico.
+// tema: 'oscuro' | 'claro'. Se le pasa al gráfico para que actualice sus colores.
+function Hero({ tema }) {
   return (
     <header className="hero" id="inicio">
       <nav className="hero__nav" aria-label="Secciones">
@@ -61,7 +62,7 @@ function Hero() {
         </div>
 
         <div className="hero__grafico">
-          <DispersionHero />
+          <DispersionHero tema={tema} />
         </div>
       </div>
 
