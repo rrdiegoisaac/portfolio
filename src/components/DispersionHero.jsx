@@ -364,22 +364,156 @@ function histogramaSesgado(base) {
   })
 }
 
+// Nube en forma de U: la recta (punteada) no la sigue y la parábola de mínimos cuadrados sí
+function polinomica(base) {
+  const puntos = base.map((b) => ({
+    x: b.u1,
+    y: limitar(0.2 + 2.4 * (b.u1 - 0.5) ** 2 + 0.06 * b.n1),
+    grupo: b.u1 < 0.36 ? 0 : b.u1 < 0.7 ? 1 : 2,
+  }))
+  const recta = ajustar(puntos)
+  // Ecuaciones normales de y = a + b·x + c·x², resueltas por Cramer
+  const suma = (f) => puntos.reduce((s, p) => s + f(p), 0)
+  const [s0, s1, s2, s3, s4] = [0, 1, 2, 3, 4].map((k) => suma((p) => p.x ** k))
+  const [t0, t1, t2] = [0, 1, 2].map((k) => suma((p) => p.y * p.x ** k))
+  const det = (m) =>
+    m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1]) -
+    m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0]) +
+    m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0])
+  const matriz = [
+    [s0, s1, s2],
+    [s1, s2, s3],
+    [s2, s3, s4],
+  ]
+  const total = det(matriz)
+  const [a, b, c] = [0, 1, 2].map(
+    (col) => det(matriz.map((fila, i) => fila.map((v, j) => (j === col ? [t0, t1, t2][i] : v)))) / total,
+  )
+  const curva = (x) => a + b * x + c * x * x
+  const media = t0 / puntos.length
+  const r2 = 1 - suma((p) => (p.y - curva(p.x)) ** 2) / suma((p) => (p.y - media) ** 2)
+  return {
+    nombre: `Regresión polinómica · R² = ${decimal(r2)}`,
+    puntos,
+    frente: ({ ctx, px, py, colorEje, alfa }) => {
+      ctx.strokeStyle = colorEje
+      ctx.globalAlpha = alfa * 0.45
+      ctx.lineWidth = 2
+      ctx.setLineDash([6, 6])
+      ctx.beginPath()
+      ctx.moveTo(px(0), py(recta.intercepto))
+      ctx.lineTo(px(1), py(recta.intercepto + recta.pendiente))
+      ctx.stroke()
+      ctx.setLineDash([])
+      ctx.globalAlpha = alfa * 0.85
+      ctx.lineWidth = 2.5
+      ctx.beginPath()
+      for (let k = 0; k <= 80; k++) ctx.lineTo(px(k / 80), py(curva(k / 80)))
+      ctx.stroke()
+    },
+  }
+}
+
+// Nube compacta con unos pocos puntos lejanos. Es atípico el punto cuya distancia al
+// centro (mediana) supera Q3 + 2 × RIQ de todas las distancias (RIQ = Q3 − Q1)
+function atipicos(base) {
+  const puntos = base.map((b) => {
+    if (b.i % 20 === 7) {
+      const angulo = b.u1 * Math.PI * 2
+      const radio = 0.38 + b.u2 * 0.08
+      return { x: limitar(0.5 + Math.cos(angulo) * radio), y: limitar(0.5 + Math.sin(angulo) * radio), grupo: 0 }
+    }
+    return { x: limitar(0.5 + 0.1 * b.n1), y: limitar(0.5 + 0.06 * b.n1 + 0.07 * b.n2), grupo: 0 }
+  })
+  const mediana = (vs) => cuantil([...vs].sort((a, b) => a - b), 0.5)
+  const cx = mediana(puntos.map((p) => p.x))
+  const cy = mediana(puntos.map((p) => p.y))
+  const distancias = puntos.map((p) => Math.hypot(p.x - cx, p.y - cy))
+  const ordenadas = [...distancias].sort((a, b) => a - b)
+  const q1 = cuantil(ordenadas, 0.25)
+  const q3 = cuantil(ordenadas, 0.75)
+  const limite = q3 + 2 * (q3 - q1)
+  const lejanos = puntos.filter((p, i) => {
+    p.grupo = distancias[i] > limite ? 1 : 0
+    return p.grupo === 1
+  })
+  return {
+    nombre: `Detección de outliers · ${lejanos.length} atípicos`,
+    puntos,
+    fondo: ({ ctx, px, py, colorEje, alfa }) => {
+      // Círculo del límite: lo que queda fuera es atípico
+      ctx.globalAlpha = alfa * 0.5
+      ctx.strokeStyle = colorEje
+      ctx.lineWidth = 1.5
+      ctx.setLineDash([5, 5])
+      ctx.beginPath()
+      ctx.ellipse(px(cx), py(cy), px(limite) - px(0), py(0) - py(limite), 0, 0, Math.PI * 2)
+      ctx.stroke()
+      ctx.setLineDash([])
+    },
+    frente: ({ ctx, px, py, colorEje, alfa }) => {
+      ctx.globalAlpha = alfa * 0.8
+      ctx.strokeStyle = colorEje
+      ctx.lineWidth = 1.5
+      lejanos.forEach((p) => {
+        ctx.beginPath()
+        ctx.arc(px(p.x), py(p.y), 12, 0, Math.PI * 2)
+        ctx.stroke()
+      })
+    },
+  }
+}
+
+// Serie con tendencia y estacionalidad de 12 períodos; la media móvil la suaviza
+function serieTiempo(base) {
+  const VENTANA = 12
+  const puntos = base.map((b) => {
+    const x = 0.02 + (b.i / (CANTIDAD - 1)) * 0.96
+    return { x, y: limitar(0.22 + 0.45 * x + 0.1 * Math.sin((2 * Math.PI * b.i) / 12) + 0.03 * b.n1), grupo: 0 }
+  })
+  const movil = puntos.slice(VENTANA - 1).map((p, k) => ({
+    x: p.x,
+    y: puntos.slice(k, k + VENTANA).reduce((s, q) => s + q.y, 0) / VENTANA,
+  }))
+  return {
+    nombre: `Serie de tiempo · media móvil de ${VENTANA}`,
+    puntos,
+    fondo: ({ ctx, px, py, colorEje, alfa }) => {
+      ctx.globalAlpha = alfa * 0.35
+      ctx.strokeStyle = colorEje
+      ctx.lineWidth = 1
+      ctx.beginPath()
+      puntos.forEach((p) => ctx.lineTo(px(p.x), py(p.y)))
+      ctx.stroke()
+    },
+    frente: ({ ctx, px, py, rgba, alfa }) => {
+      ctx.globalAlpha = alfa
+      ctx.strokeStyle = rgba(1, 1)
+      ctx.lineWidth = 3
+      ctx.beginPath()
+      movil.forEach((p) => ctx.lineTo(px(p.x), py(p.y)))
+      ctx.stroke()
+    },
+  }
+}
+
 function crearEscenas(base) {
   return [
     lineal(base, 0.18, 0.62, 0.07),
+    polinomica(base),
     arbol(base),
     logistica(base),
     cajas(base),
-    lineal(base, 0.82, -0.55, 0.13),
+    atipicos(base),
     segmentacion(base),
+    serieTiempo(base),
     histogramaNormal(base),
     histogramaSesgado(base),
-    lineal(base, 0.5, 0, 0.17),
   ]
 }
 
 // Gráfico decorativo de la portada: los mismos puntos pasan por varios tipos de gráfico
-// (regresiones, árbol de decisión, cajas, k-means, histogramas). Flotan, se apartan del
+// (regresiones, árbol de decisión, cajas, outliers, k-means, serie de tiempo, histogramas). Flotan, se apartan del
 // cursor y el ciclo se pausa con el cursor encima. Un clic en uno de los puntitos de arriba
 // salta a ese gráfico; un clic en cualquier otra parte adelanta al siguiente.
 // Con "reducir movimiento" queda quieto y solo cambia con clic.
