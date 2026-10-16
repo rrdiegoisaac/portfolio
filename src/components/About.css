@@ -17,31 +17,45 @@
   color: var(--accent);
 }
 
+/* Grilla de cifras: 2 columnas y 1 en celular */
 .about__logros-lista {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* Cada logro con una marca de color a la izquierda */
-.about__logros-lista li {
-  position: relative;
-  padding-left: 1.4rem;
-  line-height: 1.6;
+@media (max-width: 460px) {
+  .about__logros-lista {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.about__logro {
+  padding: 1rem 1.1rem 1.1rem;
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent);
+  border-radius: 8px;
+  background-color: color-mix(in srgb, var(--surface) 85%, transparent);
+}
+
+.about .about__logro-cifra {
+  margin: 0 0 0.35rem;
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
   color: var(--text);
 }
 
-.about__logros-lista li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.62em;
-  width: 0.6rem;
-  height: 2px;
-  background-color: var(--accent);
+.about .about__logro-texto {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--muted);
 }
 
 .about__destacados {

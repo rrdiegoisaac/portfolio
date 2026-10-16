@@ -4,8 +4,8 @@ import './About.css'
 const destacados = [
   {
     cifra: '3 años',
-    titulo: 'como Data Analyst',
-    texto: 'En telecomunicaciones: desarrollo y administración de SQL Server, ETL con Python, datos de SAP y Oracle, y dashboards en Power BI diseñados en Figma.',
+    titulo: 'como Data Analyst & Data Engineer',
+    texto: 'En telecomunicaciones, para clientes como Movistar, VTR y OnNet.',
   },
   {
     cifra: 'Kaggle',
@@ -22,9 +22,22 @@ const destacados = [
 
 // Resultados concretos del trabajo actual
 const logros = [
-  'Bajé consultas SQL de decenas de minutos a segundos, con índices y reescribiendo las consultas.',
-  'Optimicé reportes de Power BI midiendo las consultas con SQL Server Profiler y las medidas con DAX Studio.',
-  'Optimicé procesos ETL de punta a punta: desde la descarga de los datos hasta la carga en el servidor.',
+  {
+    cifra: 'Minutos → segundos',
+    texto: 'Consultas SQL que tardaban decenas de minutos, optimizadas con índices y reescribiendo las consultas.',
+  },
+  {
+    cifra: '1 h → 10 min',
+    texto: 'Proceso ETL completo, desde la descarga de los datos hasta la carga en el servidor.',
+  },
+  {
+    cifra: '+300',
+    texto: 'Procesos automatizados: unos 200 stored procedures, 100 scripts ETL en Python y los jobs que los ejecutan.',
+  },
+  {
+    cifra: '+30',
+    texto: 'Dashboards de Power BI en producción, que se actualizan solos en Power BI Service.',
+  },
 ]
 
 function About() {
@@ -33,25 +46,28 @@ function About() {
       <h2 className="home__seccion-titulo">Sobre mí</h2>
       <div className="about__text">
         <p>
-          Trabajo como Data Analyst en la industria de telecomunicaciones.
-          En el backend administro y optimizo bases en SQL Server: desarrollo
-          stored procedures, jobs y triggers, trabajo con índices y reviso el
-          rendimiento con Activity Monitor y SQL Server Profiler. Integro
-          datos de SAP y Oracle.
+          Me hago cargo del ciclo completo del dato: extracción,
+          transformación, modelado y visualización.
         </p>
         <p>
-          Construyo procesos ETL en Python: extraigo datos con web scraping
-          (Selenium) y consumiendo APIs (requests), los limpio y los cargo a
-          la base con SQLAlchemy, con
-          ejecuciones programadas para que los flujos corran solos y sean
-          confiables.
+          Trabajo con bases relacionales en SQL Server, PostgreSQL y SQLite.
+          En producción desarrollo y administro SQL Server: stored
+          procedures, jobs, triggers e índices. Diagnostico cuellos de botella
+          con Activity Monitor y SQL Server Profiler y, cuando el costo de
+          cálculo lo justifica, materializo tablas en data marts con cargas
+          batch programadas. Integro datos de SAP, Oracle y SGS.
         </p>
         <p>
-          En Power BI modelo las relaciones entre tablas, escribo medidas DAX
-          (y las optimizo con DAX Studio) y publico reportes que se actualizan
-          solos en Power BI Service. También diseño en Figma los fondos y la
-          navegación de esos reportes. Aplico buenas prácticas en ambos lados:
-          un backend ordenado y eficiente, y reportes claros de leer.
+          Construyo pipelines ETL en Python: extracción con web scraping
+          (Selenium) y APIs REST (requests), transformación y carga a la base
+          con SQLAlchemy, con ejecución programada.
+        </p>
+        <p>
+          En Power BI diseño modelos estrella, optimizo medidas DAX con DAX
+          Studio y configuro actualización incremental en Power BI Service.
+          Con la API REST de Fabric automatizo el envío de reportes y la
+          extracción de datos de los modelos publicados. La capa visual la
+          diseño en Figma y la cargo como fondo SVG.
         </p>
       </div>
 
@@ -59,7 +75,10 @@ function About() {
         <h3 className="about__logros-titulo">Algunos resultados</h3>
         <ul className="about__logros-lista">
           {logros.map((logro) => (
-            <li key={logro}>{logro}</li>
+            <li key={logro.texto} className="about__logro">
+              <p className="about__logro-cifra">{logro.cifra}</p>
+              <p className="about__logro-texto">{logro.texto}</p>
+            </li>
           ))}
         </ul>
       </div>
