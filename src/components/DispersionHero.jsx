@@ -293,12 +293,21 @@ function segmentacion(base) {
   }
 }
 
-function histograma(base) {
-  const BARRAS = 17
-  const MEDIA = 0.5
-  const DESVIO = 0.16
+// Asimetría (skewness) de la muestra: 0 si es simétrica, positiva si tiene la cola a la derecha
+function asimetria(valores) {
+  const n = valores.length
+  const media = valores.reduce((s, v) => s + v, 0) / n
+  const m2 = valores.reduce((s, v) => s + (v - media) ** 2, 0) / n
+  const m3 = valores.reduce((s, v) => s + (v - media) ** 3, 0) / n
+  return m3 / m2 ** 1.5
+}
+
+// Histograma de puntos apilados. valor: de dónde sale cada punto (0 a 1);
+// densidad: la curva teórica de esa distribución, que se dibuja encima.
+function histograma(base, { nombre, barras: BARRAS, valor, densidad }) {
   const ancho = 1 / BARRAS
-  const barras = base.map((b) => Math.min(BARRAS - 1, Math.floor(entre01(MEDIA + DESVIO * b.n2) * BARRAS)))
+  const valores = base.map((b) => limitar(valor(b), 0.005, 0.995))
+  const barras = valores.map((v) => Math.min(BARRAS - 1, Math.floor(v * BARRAS)))
   const conteos = Array(BARRAS).fill(0)
   barras.forEach((k) => conteos[k]++)
   const paso = 0.9 / Math.max(...conteos)
@@ -308,24 +317,51 @@ function histograma(base) {
     y: 0.035 + apilados[k]++ * paso,
     grupo: k < BARRAS / 3 ? 0 : k < (2 * BARRAS) / 3 ? 1 : 2,
   }))
-  // Curva normal escalada a la cantidad de puntos esperada en cada barra
-  const esperado = (x) =>
-    (CANTIDAD * ancho * Math.exp(-(((x - MEDIA) / DESVIO) ** 2) / 2)) / (DESVIO * Math.sqrt(2 * Math.PI))
+  // Curva escalada a la cantidad de puntos esperada en cada barra
+  const esperado = (x) => CANTIDAD * ancho * densidad(x)
   return {
-    nombre: 'Distribución · histograma',
+    nombre: `${nombre} · asimetría ${decimal(asimetria(valores))}`,
     puntos,
     frente: ({ ctx, px, py, colorEje, alfa }) => {
       ctx.globalAlpha = alfa * 0.8
       ctx.strokeStyle = colorEje
       ctx.lineWidth = 2.5
       ctx.beginPath()
-      for (let k = 0; k <= 80; k++) {
-        const x = k / 80
+      for (let k = 0; k <= 120; k++) {
+        const x = k / 120
         ctx.lineTo(px(x), py(Math.max(0, 0.035 + (esperado(x) - 0.5) * paso)))
       }
       ctx.stroke()
     },
   }
+}
+
+function histogramaNormal(base) {
+  const MEDIA = 0.5
+  const DESVIO = 0.16
+  return histograma(base, {
+    nombre: 'Histograma normal',
+    barras: 17,
+    valor: (b) => MEDIA + DESVIO * b.n2,
+    densidad: (x) => Math.exp(-(((x - MEDIA) / DESVIO) ** 2) / 2) / (DESVIO * Math.sqrt(2 * Math.PI)),
+  })
+}
+
+// Log-normal: la mayoría de los valores son bajos y unos pocos se van lejos a la derecha
+function histogramaSesgado(base) {
+  const DESDE = 0.05
+  const ESCALA = 0.25
+  const SIGMA = 0.4
+  return histograma(base, {
+    nombre: 'Histograma sesgado',
+    barras: 22,
+    valor: (b) => DESDE + ESCALA * Math.exp(SIGMA * b.n2),
+    densidad: (x) => {
+      const w = (x - DESDE) / ESCALA
+      if (w <= 0) return 0
+      return Math.exp(-(Math.log(w) ** 2) / (2 * SIGMA ** 2)) / (ESCALA * w * SIGMA * Math.sqrt(2 * Math.PI))
+    },
+  })
 }
 
 function crearEscenas(base) {
@@ -336,13 +372,14 @@ function crearEscenas(base) {
     cajas(base),
     lineal(base, 0.82, -0.55, 0.13),
     segmentacion(base),
-    histograma(base),
+    histogramaNormal(base),
+    histogramaSesgado(base),
     lineal(base, 0.5, 0, 0.17),
   ]
 }
 
 // Gráfico decorativo de la portada: los mismos puntos pasan por varios tipos de gráfico
-// (regresiones, árbol de decisión, cajas, k-means, histograma). Flotan, se apartan del
+// (regresiones, árbol de decisión, cajas, k-means, histogramas). Flotan, se apartan del
 // cursor y el ciclo se pausa con el cursor encima. Un clic en uno de los puntitos de arriba
 // salta a ese gráfico; un clic en cualquier otra parte adelanta al siguiente.
 // Con "reducir movimiento" queda quieto y solo cambia con clic.
