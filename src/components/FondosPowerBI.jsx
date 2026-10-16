@@ -131,8 +131,12 @@ function FondosPowerBI() {
       <p className="fondos__intro">
         Diseño en Figma los fondos de mis dashboards de Power BI: el fondo lleva
         la estructura, la marca y la navegación, y los visuales van encima sin
-        fondo propio. Así el reporte se ve ordenado y es liviano de mantener.
-        Estos son algunos de mis diseños, con datos de ejemplo.
+        fondo propio. Lo exporto como SVG y lo cargo como fondo de la página, en
+        vez de armar el diseño con rectángulos, formas e imágenes dentro de Power
+        BI: cada uno de esos elementos cuenta como un objeto visual más que el
+        reporte debe dibujar, así que el reporte carga más rápido y es más
+        liviano de mantener. Estos son algunos de mis diseños, con datos de
+        ejemplo.
       </p>
 
       <div
