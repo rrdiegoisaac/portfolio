@@ -2,6 +2,7 @@ import Hero from './Hero'
 import About from './About'
 import Skills from './Skills'
 import Projects from './Projects'
+import FondosPowerBI from './FondosPowerBI'
 import Contact from './Contact'
 import './Home.css'
 
@@ -13,6 +14,7 @@ function Home() {
       <main className="home__contenido">
         <About />
         <Skills />
+        <FondosPowerBI />
         <Projects />
         <Contact />
       </main>

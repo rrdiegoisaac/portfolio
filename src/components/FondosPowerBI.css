@@ -1,0 +1,242 @@
+.fondos__intro {
+  margin: 0 0 2rem;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* --- Cinta que se desplaza ---------------------------------------------------------- */
+
+.fondos__carrusel {
+  position: relative;
+}
+
+/* Los bordes se desvanecen para que las imágenes entren y salgan suavemente */
+.fondos__cinta {
+  overflow: hidden;
+  padding: 0.5rem 0 0.25rem;
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+
+/* El movimiento lo maneja FondosPowerBI.jsx cambiando el transform */
+.fondos__pista {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.fondos__grupo {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Margen a la derecha (no gap) para que todas las copias midan exactamente lo mismo */
+.fondos__item {
+  width: 22rem;
+  margin-right: 1.25rem;
+}
+
+@media (max-width: 560px) {
+  .fondos__item {
+    width: 16rem;
+  }
+}
+
+.fondos__boton {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface);
+  cursor: zoom-in;
+  box-shadow: 0 4px 14px rgb(22 32 46 / 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fondos__boton:hover,
+.fondos__boton:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgb(22 32 46 / 0.16);
+}
+
+.fondos__boton:focus-visible,
+.fondos__vacio:focus-visible,
+.fondos__flecha:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.fondos__boton img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.fondos__pie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.55rem;
+}
+
+.fondos__nombre {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.fondos__vacio {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.fondos__vacio:hover {
+  text-decoration: underline;
+}
+
+/* Flechas sobre los bordes de la cinta, centradas en la altura de las imágenes */
+.fondos__flecha {
+  position: absolute;
+  top: calc(0.5rem + 22rem * 9 / 32);
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgb(22 32 46 / 0.14);
+  transform: translateY(-50%);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+@media (max-width: 560px) {
+  .fondos__flecha {
+    top: calc(0.5rem + 16rem * 9 / 32);
+  }
+}
+
+.fondos__flecha:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.fondos__flecha svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.fondos__flecha--izq {
+  left: -0.4rem;
+}
+
+.fondos__flecha--der {
+  right: -0.4rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fondos__boton,
+  .fondos__flecha {
+    transition: none;
+  }
+}
+
+/* --- Vista en grande ------------------------------------------------------------------ */
+
+.fondos__dialogo {
+  width: min(92vw, 1400px);
+  max-width: none;
+  padding: 0;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  outline: none;
+}
+
+.fondos__dialogo::backdrop {
+  background: rgb(10 15 25 / 0.82);
+}
+
+.fondos__figura {
+  margin: 0;
+}
+
+.fondos__figura img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+
+.fondos__figura figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: #e5e9f0;
+}
+
+.fondos__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* Selector de dos opciones: con o sin gráficos */
+.fondos__alternar {
+  display: inline-flex;
+  border: 1px solid rgb(255 255 255 / 0.4);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.fondos__alternar button,
+.fondos__cerrar {
+  padding: 0.45rem 1rem;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.fondos__alternar button[aria-pressed='true'] {
+  background: #ffffff;
+  color: #16202e;
+}
+
+.fondos__alternar button[aria-pressed='false']:hover,
+.fondos__cerrar:hover,
+.fondos__cerrar:focus-visible {
+  background: rgb(255 255 255 / 0.12);
+}
+
+.fondos__cerrar {
+  border: 1px solid rgb(255 255 255 / 0.4);
+  border-radius: 6px;
+}
