@@ -1,0 +1,52 @@
+/* Abajo a la derecha: siempre a mano y sin tapar el menú de la portada */
+.tema-boton {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  backdrop-filter: blur(8px);
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.18);
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.tema-boton:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+  transform: rotate(-12deg);
+}
+
+.tema-boton:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.tema-boton svg {
+  width: 1.3rem;
+  height: 1.3rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tema-boton {
+    transition: none;
+  }
+
+  .tema-boton:hover {
+    transform: none;
+  }
+}

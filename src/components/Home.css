@@ -1,7 +1,44 @@
-/* La página de inicio usa siempre un tema claro, con fondo gris azulado (no blanco) y
-   una textura de puntos tenues, como papel cuadriculado. Redefine los colores de
+/* La página de inicio tiene su propio tema, independiente del sistema: oscuro (azul
+   marino) por defecto y claro (pastel) con el botón TemaBoton. Detrás de todo van
+   manchas de color difusas que quedan fijas al hacer scroll. Redefine los colores de
    index.css solo dentro de .home, así las notas de proyecto mantienen su tema. */
 .home {
+  --bg: #0a1120;
+  --surface: #111a2c;
+  --text: #e7edf6;
+  --muted: #c3cddc;
+  --accent: #5b9bff;
+  --accent-text: #08101f;
+  --border: #23314a;
+  --chart-1: #4f93f0;
+  --chart-2: #f07d4a;
+  --chart-3: #2cc28c;
+  --chart-axis: #6d7a90;
+
+  /* flow-root: el margen inferior de la última sección queda dentro del fondo */
+  display: flow-root;
+  min-height: 100vh;
+  isolation: isolate;
+  background-color: var(--bg);
+  color: var(--text);
+  color-scheme: dark;
+}
+
+.home::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle, rgb(255 255 255 / 0.05) 1px, transparent 1.2px) 0 0 / 22px 22px,
+    radial-gradient(46vw 46vw at 4% 6%, rgb(37 99 235 / 0.34), transparent 70%),
+    radial-gradient(38vw 38vw at 96% 4%, rgb(99 102 241 / 0.24), transparent 70%),
+    radial-gradient(50vw 50vw at 92% 94%, rgb(20 184 166 / 0.16), transparent 70%),
+    radial-gradient(40vw 40vw at 8% 96%, rgb(59 130 246 / 0.18), transparent 70%);
+}
+
+.home[data-tema='claro'] {
   --bg: #eef2f7;
   --surface: #ffffff;
   --text: #16202e;
@@ -13,15 +50,32 @@
   --chart-2: #eb6834;
   --chart-3: #1baf7a;
   --chart-axis: #7d8796;
-
-  /* flow-root: el margen inferior de la última sección queda dentro del fondo */
-  display: flow-root;
-  min-height: 100vh;
-  background-color: var(--bg);
-  background-image: radial-gradient(circle, #c3cedc 1px, transparent 1.2px);
-  background-size: 22px 22px;
-  color: var(--text);
   color-scheme: light;
+}
+
+.home[data-tema='claro']::before {
+  background:
+    radial-gradient(42vw 42vw at 8% 12%, rgb(92 135 255 / 0.3), transparent 70%),
+    radial-gradient(34vw 34vw at 92% 8%, rgb(27 175 122 / 0.2), transparent 70%),
+    radial-gradient(46vw 46vw at 85% 88%, rgb(235 104 52 / 0.14), transparent 70%),
+    radial-gradient(38vw 38vw at 12% 92%, rgb(92 135 255 / 0.2), transparent 70%);
+}
+
+/* Los enlaces del menú no pueden tapar la línea con un color sólido sobre las manchas
+   de color: son píldoras translúcidas */
+.home .hero__nav-lista a {
+  border-radius: 999px;
+  background-color: rgb(17 26 44 / 0.6);
+  backdrop-filter: blur(6px);
+}
+
+.home[data-tema='claro'] .hero__nav-lista a {
+  background-color: rgb(255 255 255 / 0.6);
+}
+
+.home .hero__nav-lista a:hover,
+.home .hero__nav-lista a:focus-visible {
+  background-color: var(--accent);
 }
 
 .home__contenido {
