@@ -39,11 +39,16 @@ const skillGroups = [
   {
     title: 'Power BI',
     descripcion:
-      'Modelo los datos antes de visualizarlos: relaciones entre tablas, medidas DAX eficientes y reportes que se actualizan solos.',
+      'Modelo los datos antes de visualizarlos: relaciones entre tablas, medidas DAX eficientes y reportes que se actualizan solos, con actualización incremental para no recargar toda la historia cada vez.',
     skills: [
       'DAX',
+      'Variables en DAX',
+      'Columnas calculadas',
       'Power Query',
       'Modelado y relaciones',
+      'Modelo estrella',
+      'Fechas relativas',
+      'Actualización incremental',
       'DAX Studio',
       'Power BI Service',
       'Actualización programada',
