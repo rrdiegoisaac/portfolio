@@ -20,6 +20,13 @@ const destacados = [
   },
 ]
 
+// Resultados concretos del trabajo actual
+const logros = [
+  'Bajé consultas SQL de decenas de minutos a segundos, con índices y reescribiendo las consultas.',
+  'Optimicé reportes de Power BI midiendo las consultas con SQL Server Profiler y las medidas con DAX Studio.',
+  'Optimicé procesos ETL de punta a punta: desde la descarga de los datos hasta la carga en el servidor.',
+]
+
 function About() {
   return (
     <section className="about home__seccion" id="sobre-mi" aria-label="Sobre mí">
@@ -46,6 +53,15 @@ function About() {
           navegación de esos reportes. Aplico buenas prácticas en ambos lados:
           un backend ordenado y eficiente, y reportes claros de leer.
         </p>
+      </div>
+
+      <div className="about__logros">
+        <h3 className="about__logros-titulo">Algunos resultados</h3>
+        <ul className="about__logros-lista">
+          {logros.map((logro) => (
+            <li key={logro}>{logro}</li>
+          ))}
+        </ul>
       </div>
 
       <ul className="about__destacados">

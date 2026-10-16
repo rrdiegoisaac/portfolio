@@ -4,6 +4,46 @@
   color: var(--muted);
 }
 
+.about__logros {
+  margin-top: 1.75rem;
+}
+
+.about .about__logros-titulo {
+  margin: 0 0 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.about__logros-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Cada logro con una marca de color a la izquierda */
+.about__logros-lista li {
+  position: relative;
+  padding-left: 1.4rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.about__logros-lista li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 0.6rem;
+  height: 2px;
+  background-color: var(--accent);
+}
+
 .about__destacados {
   display: flex;
   flex-direction: column;
