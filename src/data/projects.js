@@ -15,6 +15,7 @@ const projects = [
       'Los casos policiales del CEAD desde 2005, mes a mes y para las 346 comunas, obtenidos con web scraping: cómo cambiaron los delitos, dónde se concentran y qué cambios del propio registro hay que tener en cuenta antes de sacar conclusiones.',
     stack: ['Python', 'requests', 'BeautifulSoup', 'SQLite', 'pandas'],
     repo: `https://github.com/${GITHUB_USER}/delincuencia-chile`,
+    dataset: 'https://www.kaggle.com/datasets/diegoisaac1/chile-police-reported-crime-20052026-cead',
     color: '#9f1239',
   },
   {

@@ -712,7 +712,12 @@ function DelitosNota() {
         Todo el proceso es reproducible: el scraper, la base SQLite, la carga de
         población y cada paso del análisis están en el repositorio del proyecto
         en GitHub, con pruebas de las funciones principales y consultas SQL de
-        ejemplo.
+        ejemplo. Los casos completos, por comuna, delito y mes, junto con la
+        población, están publicados como dataset en{' '}
+        <a href="https://www.kaggle.com/datasets/diegoisaac1/chile-police-reported-crime-20052026-cead" target="_blank" rel="noreferrer">
+          Kaggle
+        </a>
+        , para que cualquiera pueda hacer su propio análisis.
       </p>
 
       <h2>Notas metodológicas</h2>
