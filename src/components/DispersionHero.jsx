@@ -5,7 +5,7 @@ const CANTIDAD = 140
 const RADIO_CURSOR = 90 // px: los puntos dentro de este radio se apartan del cursor
 const COLORES_CSS = ['--chart-1', '--chart-2', '--chart-3']
 const MARGEN = 28
-const ESPERA = 5000 // ms que se muestra cada gráfico
+const ESPERA = 3000 // ms que se muestra cada gráfico
 const TRANSICION = 1600 // ms que tardan los puntos en llegar al gráfico siguiente
 
 // Números pseudoaleatorios con semilla: los gráficos son siempre los mismos
