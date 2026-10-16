@@ -23,8 +23,12 @@ const destacados = [
 // Resultados concretos del trabajo actual
 const logros = [
   {
-    cifra: 'Minutos → segundos',
-    texto: 'Consultas SQL que tardaban decenas de minutos, optimizadas con índices y reescribiendo las consultas.',
+    cifra: '25 min → 8 s',
+    texto: 'Consultas SQL críticas, con índices y reescribiendo las consultas.',
+  },
+  {
+    cifra: '−70 %',
+    texto: 'Tiempo de carga de reportes de Power BI, optimizados con SQL Server Profiler y DAX Studio.',
   },
   {
     cifra: '1 h → 10 min',
@@ -37,6 +41,10 @@ const logros = [
   {
     cifra: '+30',
     texto: 'Dashboards de Power BI en producción, que se actualizan solos en Power BI Service.',
+  },
+  {
+    cifra: '+10',
+    texto: 'Fuentes de datos integradas en una misma base: SAP, Oracle, SGS, APIs y web scraping.',
   },
 ]
 

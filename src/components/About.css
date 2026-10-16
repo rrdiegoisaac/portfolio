@@ -17,14 +17,20 @@
   color: var(--accent);
 }
 
-/* Grilla de cifras: 2 columnas y 1 en celular */
+/* Grilla de cifras: 3 columnas en pantalla ancha, 2 en tablet y 1 en celular */
 .about__logros-lista {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75rem;
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+@media (max-width: 760px) {
+  .about__logros-lista {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 460px) {
