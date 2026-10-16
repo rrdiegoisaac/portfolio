@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import projects, { getProjectBySlug } from '../data/projects'
 import NotFound from './NotFound'
+import useTitulo from './useTitulo'
 import './ProjectPage.css'
 
 // Nota completa de cada proyecto. Se cargan por separado para no sumar
@@ -14,13 +15,16 @@ const articles = {
 function ProjectPage() {
   const { slug } = useParams()
   const project = getProjectBySlug(slug)
+  // Los proyectos sin nota publicada no tienen página: se muestran solo como tarjeta en el inicio
+  const Article = project?.nota ? articles[project.slug] : null
 
-  if (!project) {
+  useTitulo(Article ? project.title : 'Página no encontrada')
+
+  if (!Article) {
     return <NotFound />
   }
 
-  const Article = articles[project.slug]
-  const otherProjects = projects.filter((p) => p.slug !== project.slug)
+  const otherProjects = projects.filter((p) => p.nota && p.slug !== project.slug)
 
   return (
     <main className="project-page" style={{ '--project-color': project.color }}>
@@ -55,19 +59,9 @@ function ProjectPage() {
           </div>
         </header>
 
-        {Article ? (
-          <Suspense fallback={<p className="project-page__loading">Cargando la nota…</p>}>
-            <Article />
-          </Suspense>
-        ) : (
-          <div className="project-page__notice">
-            <p>
-              <strong>Nota en preparación.</strong> Aquí irá el análisis
-              completo: el problema, los datos, gráficos interactivos, el
-              código clave y los hallazgos.
-            </p>
-          </div>
-        )}
+        <Suspense fallback={<p className="project-page__loading">Cargando la nota…</p>}>
+          <Article />
+        </Suspense>
       </article>
 
       <nav className="project-page__more" aria-label="Otros proyectos">

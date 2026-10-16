@@ -20,6 +20,20 @@
   outline-offset: 2px;
 }
 
+/* Proyecto sin nota: no es enlace, así que no reacciona al cursor */
+.project-card--pendiente:hover {
+  background: none;
+  box-shadow: none;
+}
+
+.project-card--pendiente:hover .project-card__title {
+  color: inherit;
+}
+
+.project-card--pendiente:hover .project-card__image {
+  transform: none;
+}
+
 @media (max-width: 560px) {
   .project-card {
     grid-template-columns: minmax(0, 1fr);

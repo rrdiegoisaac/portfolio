@@ -84,18 +84,6 @@
   text-decoration: underline;
 }
 
-.project-page__notice {
-  margin-top: 2.5rem;
-  padding: 1.25rem 1.5rem;
-  border-radius: 8px;
-  background-color: var(--surface);
-  line-height: 1.6;
-}
-
-.project-page__notice p {
-  margin: 0;
-}
-
 .project-page__more {
   margin-top: 5rem;
   padding-top: 2rem;
