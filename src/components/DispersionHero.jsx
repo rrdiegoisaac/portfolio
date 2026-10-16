@@ -453,26 +453,33 @@ function atipicos(base) {
   }
 }
 
-// Serie con tendencia y estacionalidad de 12 períodos; la media móvil la suaviza
+// Serie mensual de 36 períodos con tendencia y estacionalidad de 12; la media móvil la
+// suaviza. Solo se ven 36 puntos: el resto queda escondido, con tamaño 0, sobre ellos.
+// La línea fina une los puntos donde se dibujan (pantalla), así los sigue mientras flotan.
 function serieTiempo(base) {
+  const PERIODOS = 36
   const VENTANA = 12
-  const puntos = base.map((b) => {
-    const x = 0.02 + (b.i / (CANTIDAD - 1)) * 0.96
-    return { x, y: limitar(0.22 + 0.45 * x + 0.1 * Math.sin((2 * Math.PI * b.i) / 12) + 0.03 * b.n1), grupo: 0 }
+  const serie = Array.from({ length: PERIODOS }, (_, k) => {
+    const x = 0.03 + (k / (PERIODOS - 1)) * 0.94
+    return { x, y: limitar(0.22 + 0.45 * x + 0.12 * Math.sin((2 * Math.PI * k) / 12) + 0.03 * base[k].n1) }
   })
-  const movil = puntos.slice(VENTANA - 1).map((p, k) => ({
+  const puntos = base.map((b) => {
+    const visible = b.i < PERIODOS
+    return { ...serie[b.i % PERIODOS], grupo: 0, tamano: visible ? 5 / b.r : 0 }
+  })
+  const movil = serie.slice(VENTANA - 1).map((p, k) => ({
     x: p.x,
-    y: puntos.slice(k, k + VENTANA).reduce((s, q) => s + q.y, 0) / VENTANA,
+    y: serie.slice(k, k + VENTANA).reduce((s, q) => s + q.y, 0) / VENTANA,
   }))
   return {
     nombre: `Serie de tiempo · media móvil de ${VENTANA}`,
     puntos,
-    fondo: ({ ctx, px, py, colorEje, alfa }) => {
-      ctx.globalAlpha = alfa * 0.35
+    fondo: ({ ctx, pantalla, colorEje, alfa }) => {
+      ctx.globalAlpha = alfa * 0.5
       ctx.strokeStyle = colorEje
-      ctx.lineWidth = 1
+      ctx.lineWidth = 1.5
       ctx.beginPath()
-      puntos.forEach((p) => ctx.lineTo(px(p.x), py(p.y)))
+      pantalla.slice(0, PERIODOS).forEach(([x, y]) => ctx.lineTo(x, y))
       ctx.stroke()
     },
     frente: ({ ctx, px, py, rgba, alfa }) => {
@@ -720,20 +727,26 @@ function DispersionHero({ tema }) {
         ctx.beginPath()
         ctx.rect(px(0), py(1), px(1) - px(0), py(0) - py(1))
         ctx.clip()
-        capas.forEach(([escena, alfa]) => escena[parte]?.({ ctx, px, py, rgba, colorEje, colorBorde, alfa }))
+        capas.forEach(([escena, alfa]) =>
+          escena[parte]?.({ ctx, px, py, pantalla, rgba, colorEje, colorBorde, alfa }),
+        )
         ctx.restore()
       }
+
+      // Dónde se dibuja cada punto en este cuadro, en píxeles
+      const flotar = reducirMovimiento ? 0 : 3
+      const pantalla = base.map((b, i) => [
+        px(actuales[i].x) + estado[i].dx + Math.cos(t * 0.6 + b.fase) * flotar,
+        py(actuales[i].y) + estado[i].dy + Math.sin(t * 0.8 + b.fase) * flotar,
+      ])
 
       capa('fondo')
 
       // Puntos
-      const flotar = reducirMovimiento ? 0 : 3
       base.forEach((b, i) => {
-        const e = estado[i]
         const p = actuales[i]
         if (p.tamano < 0.05) return
-        const x = px(p.x) + e.dx + Math.cos(t * 0.6 + b.fase) * flotar
-        const y = py(p.y) + e.dy + Math.sin(t * 0.8 + b.fase) * flotar
+        const [x, y] = pantalla[i]
         ctx.beginPath()
         ctx.arc(x, y, b.r * p.tamano, 0, Math.PI * 2)
         ctx.globalAlpha = 0.8
