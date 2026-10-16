@@ -587,19 +587,19 @@ function svm(base) {
   }
 }
 
-// El árbol va al final y no quedan dos regresiones seguidas
+// La caja y el árbol van al final, y no quedan dos regresiones seguidas
 function crearEscenas(base) {
   return [
     lineal(base, 0.18, 0.62, 0.07),
-    cajas(base),
-    polinomica(base),
     atipicos(base),
-    logistica(base),
+    polinomica(base),
     segmentacion(base),
+    logistica(base),
     dumbbell(base),
     serieTiempo(base),
     svm(base),
     histogramaSesgado(base),
+    cajas(base),
     arbol(base),
   ]
 }
@@ -631,6 +631,7 @@ function DispersionHero({ tema }) {
     let reloj = 0 // ms desde que se mostró el gráfico actual
     let ultimo = null
     let encima = false
+    let opacidadTitulo = 0 // el nombre del gráfico solo se ve con el cursor encima
     let indiceSobre = null
     let ancho = 0
     let alto = 0
@@ -746,13 +747,14 @@ function DispersionHero({ tema }) {
 
       capa('frente')
 
-      // Nombre del gráfico y un punto por cada gráfico del ciclo
+      // Nombre del gráfico (solo con el cursor encima) y un punto por cada gráfico del ciclo
       ctx.font = `600 12px ${fuente}`
       ctx.textBaseline = 'middle'
       ctx.fillStyle = colorTexto
       capas.forEach(([escena, alfa]) => {
-        ctx.globalAlpha = alfa
-        ctx.fillText(escena.nombre, MARGEN, MARGEN / 2)
+        ctx.globalAlpha = alfa * opacidadTitulo
+        // Si no cabe junto a los puntitos, el texto se angosta
+        ctx.fillText(escena.nombre, MARGEN, MARGEN / 2, xIndicador(0) - MARGEN - 14)
       })
       escenas.forEach((_, j) => {
         const actual = j === indice
@@ -805,6 +807,7 @@ function DispersionHero({ tema }) {
       // Tope de 50 ms por cuadro para que el ciclo no salte al volver a la pestaña
       avanzarReloj(ultimo === null ? 0 : Math.min(ahora - ultimo, 50))
       ultimo = ahora
+      opacidadTitulo += ((encima ? 1 : 0) - opacidadTitulo) * 0.15
       mover()
       dibujar(ahora / 1000)
       if (visible) {
@@ -825,11 +828,20 @@ function DispersionHero({ tema }) {
       cursor.x = -9999
       cursor.y = -9999
     }
+    // Con "reducir movimiento" no hay animación: el nombre aparece y se va de inmediato
     const alEntrarCanvas = () => {
       encima = true
+      if (reducirMovimiento) {
+        opacidadTitulo = 1
+        dibujar(0)
+      }
     }
     const alSalirCanvas = () => {
       encima = false
+      if (reducirMovimiento) {
+        opacidadTitulo = 0
+        dibujar(0)
+      }
     }
     const alClic = (e) => {
       const rect = canvas.getBoundingClientRect()
@@ -868,11 +880,11 @@ function DispersionHero({ tema }) {
     observadorVista.observe(canvas)
 
     canvas.addEventListener('click', alClic)
+    canvas.addEventListener('pointerenter', alEntrarCanvas)
+    canvas.addEventListener('pointerleave', alSalirCanvas)
     if (!reducirMovimiento) {
       window.addEventListener('pointermove', alMover)
       document.addEventListener('pointerleave', alSalir)
-      canvas.addEventListener('pointerenter', alEntrarCanvas)
-      canvas.addEventListener('pointerleave', alSalirCanvas)
     }
 
     return () => {
