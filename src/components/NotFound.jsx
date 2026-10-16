@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom'
+import useTitulo from './useTitulo'
 import './NotFound.css'
 
 function NotFound() {
+  useTitulo('Página no encontrada')
+
   return (
     <main className="not-found">
       <h1 className="not-found__title">Página no encontrada</h1>

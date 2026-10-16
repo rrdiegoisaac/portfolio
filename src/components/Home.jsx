@@ -6,6 +6,7 @@ import Projects from './Projects'
 import FondosPowerBI from './FondosPowerBI'
 import Contact from './Contact'
 import TemaBoton from './TemaBoton'
+import useTitulo from './useTitulo'
 import './Home.css'
 
 const CLAVE_TEMA = 'tema-inicio'
@@ -22,6 +23,7 @@ function temaGuardado() {
 // Página de inicio: portada a pantalla completa y, debajo, las secciones en una columna.
 function Home() {
   const [tema, setTema] = useState(temaGuardado)
+  useTitulo()
 
   const cambiarTema = () => {
     const nuevo = tema === 'oscuro' ? 'claro' : 'oscuro'
