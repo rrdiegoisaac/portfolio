@@ -58,4 +58,6 @@ Estado de los proyectos:
 
 ## Pendientes
 
-- Hacer las notas de los otros 2 proyectos (Portal Inmobiliario y segmentación de clientes).
+- Hacer las notas de los otros 2 proyectos (Portal Inmobiliario y segmentación de clientes). Mientras no tengan nota, sus tarjetas se muestran sin enlace y `/proyectos/<slug>` da 404 (`nota: true` en `projects.js` las activa).
+- Mostrar un dashboard de Power BI propio (publicado en la web o capturas + `.pbix` en GitHub), para respaldar SQL/Power BI con un proyecto.
+- Agregar el CV en PDF descargable.
