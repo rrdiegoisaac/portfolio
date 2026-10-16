@@ -70,8 +70,8 @@ function cuantil(ordenados, q) {
   return ordenados[abajo] + (arriba - ordenados[abajo]) * (pos - abajo)
 }
 
-// Cada gráfico define dónde va cada punto (x e y de 0 a 1), su grupo de color y lo que
-// se dibuja detrás (fondo) o encima (frente) de los puntos.
+// Cada gráfico define dónde va cada punto (x e y de 0 a 1), su grupo de color, su tamaño
+// (opcional, 1 = normal, 0 = escondido) y lo que se dibuja detrás (fondo) o encima (frente).
 
 function lineal(base, intercepto, pendiente, ruido) {
   const puntos = base.map((b) => ({
@@ -336,17 +336,6 @@ function histograma(base, { nombre, barras: BARRAS, valor, densidad }) {
   }
 }
 
-function histogramaNormal(base) {
-  const MEDIA = 0.5
-  const DESVIO = 0.16
-  return histograma(base, {
-    nombre: 'Histograma normal',
-    barras: 17,
-    valor: (b) => MEDIA + DESVIO * b.n2,
-    densidad: (x) => Math.exp(-(((x - MEDIA) / DESVIO) ** 2) / 2) / (DESVIO * Math.sqrt(2 * Math.PI)),
-  })
-}
-
 // Log-normal: la mayoría de los valores son bajos y unos pocos se van lejos a la derecha
 function histogramaSesgado(base) {
   const DESDE = 0.05
@@ -497,23 +486,127 @@ function serieTiempo(base) {
   }
 }
 
+// Antes y después en 14 filas, ordenadas por el valor inicial. Solo se ven 28 puntos
+// (2 por fila); el resto queda escondido, con tamaño 0, en los extremos de cada fila.
+function dumbbell(base) {
+  const FILAS = 14
+  const filas = Array.from({ length: FILAS }, (_, f) => {
+    const b = base[f]
+    const antes = 0.55 + b.u3 * 0.38
+    return { antes, despues: antes * (0.3 + b.u2 * 0.4) }
+  }).sort((a, b) => b.antes - a.antes)
+  const alturaFila = (f) => 0.94 - (f * 0.88) / (FILAS - 1)
+  const puntos = base.map((b) => {
+    const visible = b.i < FILAS * 2
+    const fila = visible ? b.i >> 1 : b.i % FILAS
+    const despues = visible ? b.i % 2 === 1 : b.i % 2 === 0
+    return {
+      x: despues ? filas[fila].despues : filas[fila].antes,
+      y: alturaFila(fila),
+      grupo: despues ? 0 : 1,
+      tamano: visible ? 5.5 / b.r : 0,
+    }
+  })
+  const cambio = filas.reduce((s, f) => s + f.despues / f.antes - 1, 0) / FILAS
+  return {
+    nombre: `Antes y después · ${decimal(cambio * 100).replace(/,\d+/, '')} % en promedio`,
+    puntos,
+    fondo: ({ ctx, px, py, colorEje, alfa }) => {
+      ctx.globalAlpha = alfa * 0.6
+      ctx.strokeStyle = colorEje
+      ctx.lineWidth = 2.5
+      filas.forEach((f, k) => {
+        ctx.beginPath()
+        ctx.moveTo(px(f.despues), py(alturaFila(k)))
+        ctx.lineTo(px(f.antes), py(alturaFila(k)))
+        ctx.stroke()
+      })
+    },
+  }
+}
+
+// Dos clases separadas por una franja vacía. La recta de margen máximo se busca probando
+// direcciones cada 0,1°: para cada una, el margen es la mitad del hueco entre las clases.
+function svm(base) {
+  const ANGULO = Math.atan2(1, -0.6) // normal de la recta y = 0,5 + 0,6·(x − 0,5)
+  const nx = Math.cos(ANGULO)
+  const ny = Math.sin(ANGULO)
+  const puntos = base.map((b) => {
+    const x0 = 0.04 + b.u1 * 0.92
+    const y0 = 0.04 + b.u2 * 0.92
+    const d = (x0 - 0.5) * nx + (y0 - 0.5) * ny
+    const nueva = Math.sign(d || 1) * (0.06 + Math.abs(d) * 0.8)
+    return {
+      x: limitar(x0 + (nueva - d) * nx),
+      y: limitar(y0 + (nueva - d) * ny),
+      grupo: d >= 0 ? 2 : 0,
+    }
+  })
+  let mejor = { margen: -Infinity }
+  for (let k = 0; k < 3600; k++) {
+    const a = (k / 3600) * Math.PI * 2
+    const proyectar = (p) => p.x * Math.cos(a) + p.y * Math.sin(a)
+    const arriba = Math.min(...puntos.filter((p) => p.grupo === 2).map(proyectar))
+    const abajo = Math.max(...puntos.filter((p) => p.grupo === 0).map(proyectar))
+    const margen = (arriba - abajo) / 2
+    if (margen > mejor.margen) mejor = { margen, angulo: a, centro: (arriba + abajo) / 2 }
+  }
+  const { margen, angulo, centro } = mejor
+  const proyectar = (p) => p.x * Math.cos(angulo) + p.y * Math.sin(angulo)
+  const soporte = puntos.filter((p) => Math.abs(Math.abs(proyectar(p) - centro) - margen) < 0.004)
+  // Recta donde la proyección vale c, como dos puntos bien fuera del gráfico
+  const recta = (ctx, px, py, c) => {
+    const [ax, ay] = [Math.cos(angulo) * c, Math.sin(angulo) * c]
+    const [dx, dy] = [-Math.sin(angulo) * 3, Math.cos(angulo) * 3]
+    ctx.beginPath()
+    ctx.moveTo(px(ax - dx), py(ay - dy))
+    ctx.lineTo(px(ax + dx), py(ay + dy))
+    ctx.stroke()
+  }
+  return {
+    nombre: `SVM lineal · ${soporte.length} vectores de soporte`,
+    puntos,
+    frente: ({ ctx, px, py, colorEje, alfa }) => {
+      ctx.strokeStyle = colorEje
+      ctx.globalAlpha = alfa * 0.85
+      ctx.lineWidth = 2.5
+      recta(ctx, px, py, centro)
+      ctx.globalAlpha = alfa * 0.55
+      ctx.lineWidth = 1.5
+      ctx.setLineDash([6, 6])
+      recta(ctx, px, py, centro - margen)
+      recta(ctx, px, py, centro + margen)
+      ctx.setLineDash([])
+      ctx.globalAlpha = alfa * 0.85
+      soporte.forEach((p) => {
+        ctx.beginPath()
+        ctx.arc(px(p.x), py(p.y), 11, 0, Math.PI * 2)
+        ctx.stroke()
+      })
+    },
+  }
+}
+
+// El árbol va al final y no quedan dos regresiones seguidas
 function crearEscenas(base) {
   return [
     lineal(base, 0.18, 0.62, 0.07),
-    polinomica(base),
-    arbol(base),
-    logistica(base),
     cajas(base),
+    polinomica(base),
     atipicos(base),
+    logistica(base),
     segmentacion(base),
+    dumbbell(base),
     serieTiempo(base),
-    histogramaNormal(base),
+    svm(base),
     histogramaSesgado(base),
+    arbol(base),
   ]
 }
 
 // Gráfico decorativo de la portada: los mismos puntos pasan por varios tipos de gráfico
-// (regresiones, árbol de decisión, cajas, outliers, k-means, serie de tiempo, histogramas). Flotan, se apartan del
+// (regresiones, cajas, outliers, k-means, antes y después, serie de tiempo, SVM, histograma,
+// árbol de decisión). Flotan, se apartan del
 // cursor y el ciclo se pausa con el cursor encima. Un clic en uno de los puntitos de arriba
 // salta a ese gráfico; un clic en cualquier otra parte adelanta al siguiente.
 // Con "reducir movimiento" queda quieto y solo cambia con clic.
@@ -588,7 +681,8 @@ function DispersionHero({ tema }) {
         const q = b[i]
         const k = progreso === 0 ? 0 : suavizar(entre01((progreso - retraso[i]) / 0.7))
         const color = colores[p.grupo].map((c, j) => Math.round(c + (colores[q.grupo][j] - c) * k))
-        return { x: p.x + (q.x - p.x) * k, y: p.y + (q.y - p.y) * k, color: `rgb(${color.join(', ')})` }
+        const tamano = (p.tamano ?? 1) + ((q.tamano ?? 1) - (p.tamano ?? 1)) * k
+        return { x: p.x + (q.x - p.x) * k, y: p.y + (q.y - p.y) * k, tamano, color: `rgb(${color.join(', ')})` }
       })
     }
 
@@ -636,10 +730,11 @@ function DispersionHero({ tema }) {
       base.forEach((b, i) => {
         const e = estado[i]
         const p = actuales[i]
+        if (p.tamano < 0.05) return
         const x = px(p.x) + e.dx + Math.cos(t * 0.6 + b.fase) * flotar
         const y = py(p.y) + e.dy + Math.sin(t * 0.8 + b.fase) * flotar
         ctx.beginPath()
-        ctx.arc(x, y, b.r, 0, Math.PI * 2)
+        ctx.arc(x, y, b.r * p.tamano, 0, Math.PI * 2)
         ctx.globalAlpha = 0.8
         ctx.fillStyle = p.color
         ctx.fill()
