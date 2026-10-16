@@ -3,24 +3,64 @@ import './Skills.css'
 
 const skillGroups = [
   {
-    title: 'SQL y bases de datos',
+    title: 'SQL Server',
+    descripcion:
+      'Desarrollo y administro bases en producción: automatizo con stored procedures, jobs y triggers, monitoreo la carga y optimizo las consultas lentas.',
     skills: [
-      'SQL Server',
       'Stored Procedures',
       'Jobs',
       'Triggers',
+      'Índices',
       'Optimización de consultas',
+      'Activity Monitor',
+      'SQL Server Profiler',
+      'Administración de bases',
+      'Buenas prácticas de backend',
       'SAP',
       'Oracle',
     ],
   },
   {
-    title: 'Python',
-    skills: ['Selenium', 'SQLAlchemy', 'Web scraping', 'ETL', 'Streamlit'],
+    title: 'Python y ETL',
+    descripcion:
+      'Construyo procesos ETL completos: extraigo datos con web scraping y desde APIs, los limpio y los cargo a la base con ejecuciones programadas.',
+    skills: [
+      'Web scraping',
+      'Selenium',
+      'Requests',
+      'Consumo de APIs',
+      'Limpieza de datos',
+      'Carga a bases de datos',
+      'SQLAlchemy',
+      'Ejecución programada',
+      'Streamlit',
+    ],
   },
   {
     title: 'Power BI',
-    skills: ['DAX', 'Power Query', 'Power BI Service', 'KPIs y reportes'],
+    descripcion:
+      'Modelo los datos antes de visualizarlos: relaciones entre tablas, medidas DAX eficientes y reportes que se actualizan solos.',
+    skills: [
+      'DAX',
+      'Power Query',
+      'Modelado y relaciones',
+      'DAX Studio',
+      'Power BI Service',
+      'Actualización programada',
+      'KPIs y reportes',
+    ],
+  },
+  {
+    title: 'Diseño de reportes',
+    descripcion:
+      'Diseño en Figma los fondos y la navegación de mis reportes, para que se lean rápido y mantengan una misma línea visual.',
+    skills: [
+      'Figma',
+      'Fondos y plantillas para Power BI',
+      'Navegación entre páginas',
+      'Jerarquía visual',
+      'Buenas prácticas de visualización',
+    ],
   },
   {
     title: 'Modelado predictivo',
@@ -41,7 +81,7 @@ function Skills() {
       <ol className="skills__lista">
         {skillGroups.map((group) => (
           <li key={group.title}>
-            <SkillGroup title={group.title} skills={group.skills} />
+            <SkillGroup title={group.title} descripcion={group.descripcion} skills={group.skills} />
           </li>
         ))}
       </ol>
